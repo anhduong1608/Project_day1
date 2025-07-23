@@ -15,11 +15,11 @@ public class StudentImp implements StudentDao {
         ResultSet rs = null;
         try {
             conn = ConnectionDB.openConnection();
-            stmt = conn.prepareCall("{call trainingmanagement.is_email_student(?)}");
+            stmt = conn.prepareCall("{call trainingManagement.get_pass_by_email(?)}");
             stmt.setString(1, email);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                return rs.getString(1);
+                return rs.getString("password");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -35,7 +35,7 @@ public class StudentImp implements StudentDao {
         CallableStatement stmt = null;
         try {
             conn = ConnectionDB.openConnection();
-            stmt = conn.prepareCall("{call trainingmanagement.get_pass_by_email(?,?)}");
+            stmt = conn.prepareCall("{call trainingManagement.get_pass_by_email(?,?)}");
             stmt.setString(1, email);
             stmt.registerOutParameter(2, java.sql.Types.INTEGER);
             stmt.execute();

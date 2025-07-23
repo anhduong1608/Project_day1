@@ -16,7 +16,7 @@ public class LoginDaoImp implements LoginDao {
         ResultSet rs = null;
         try {
             conn = ConnectionDB.openConnection();
-            callSt = conn.prepareCall("{call trainingmanagement.login_admin(?,?)}");
+            callSt = conn.prepareCall("{call trainingManagement.login_admin(?,?)}");
             callSt.setString(1, username);
             callSt.setString(2, password);
             rs = callSt.executeQuery();
@@ -36,7 +36,7 @@ public class LoginDaoImp implements LoginDao {
         ResultSet rs = null;
         try {
             conn = ConnectionDB.openConnection();
-            callSt = conn.prepareCall("{call trainingmanagement.login_student(?,?)}");
+            callSt = conn.prepareCall("{call trainingManagement.login_student(?,?)}");
             callSt.setString(1, email);
             callSt.setString(2, password);
             rs = callSt.executeQuery();

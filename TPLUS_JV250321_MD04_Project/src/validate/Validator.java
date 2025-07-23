@@ -13,15 +13,15 @@ public class Validator {
 
     public static boolean isInt(String data) {
         try {
-            Integer.parseInt(data);
-            return true;
+            return Integer.parseInt(data) > 0;
+
         } catch (NumberFormatException e) {
             return false;
         }
     }
 
     public static boolean isLocaldate(String data) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         try {
             LocalDate.parse(data, formatter);
             return true;

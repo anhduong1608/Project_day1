@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 
 public class ConnectionDB {
     private static String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static String URL = "jdbc:mysql://localhost:3306/trainingmanagement";
+    private static String URL = "jdbc:mysql://localhost:3306/trainingManagement";
     private static String USER = "root";
     private static String PASSWORD = "12345678";
 

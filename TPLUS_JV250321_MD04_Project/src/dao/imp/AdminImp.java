@@ -16,7 +16,7 @@ public class AdminImp implements AdminDao {
         CallableStatement callSt = null;
         try {
             conn = ConnectionDB.openConnection();
-            callSt = conn.prepareCall("{call trainingmanagement.is_admin_username(?,?)}");
+            callSt = conn.prepareCall("{call trainingManagement.is_admin_username(?,?)}");
             callSt.setString(1, username);
             callSt.registerOutParameter(2, java.sql.Types.INTEGER);
             callSt.execute();
@@ -39,7 +39,7 @@ public class AdminImp implements AdminDao {
         ResultSet rs = null;
         try {
             conn = ConnectionDB.openConnection();
-            callSt = conn.prepareCall("{CALL trainingmanagement.get_pass_by_username_admin(?)}");
+            callSt = conn.prepareCall("{CALL trainingManagement.get_pass_by_username_admin(?)}");
             callSt.setString(1, username);
             rs = callSt.executeQuery();
             if (rs.next()) {
@@ -59,7 +59,7 @@ public class AdminImp implements AdminDao {
         CallableStatement callSt = null;
         try {
             conn = ConnectionDB.openConnection();
-            callSt = conn.prepareCall("{call trainingmanagement.save_admin(?,?)}");
+            callSt = conn.prepareCall("{call trainingManagement.save_admin(?,?)}");
             callSt.setString(1, admin.getUsername());
             String hashedPassword = PasswordUtil.hashPassword(admin.getPassword());
             callSt.setString(2, hashedPassword);

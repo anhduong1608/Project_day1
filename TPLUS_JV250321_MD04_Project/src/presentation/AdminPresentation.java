@@ -27,11 +27,11 @@ public class AdminPresentation {
             if (input.trim().isEmpty()) {
                 System.err.println("mời nhập tên đăng nhập không được để trống");
             } else {
-                if (adminImp.checkUsername(input)) {
+                if (input.length()>=5) {
                     admin.setUsername(input);
                     break;
                 } else {
-                    System.err.println("tên đăng nhập sai vui lòng nhập lại!");
+                    System.err.println("tên đăng nhập phải dài hơn 6 kí tự lòng nhập lại!");
                 }
             }
         } while (true);
@@ -45,17 +45,12 @@ public class AdminPresentation {
                     System.err.println("password phải dài hơn 6 kí tự");
                 } else {
                     admin.setPassword(input);
-                    if (adminBusinessImp.getPassWordByUsername(admin.getUsername()).equals(PasswordUtil.hashPassword(input))) {
-                        admin.setPassword(input);
-                        break;
-                    } else {
-                        System.err.println("mật khẩu không hợp lệ vui lòng nhập lại!");
-                    }
+                    break;
                 }
             }
 
         } while (true);
-        boolean adminLoginResult = adminBusinessImp.loginAdmin(admin.getUsername(), admin.getPassword());
+        boolean adminLoginResult = adminBusinessImp.loginAdmin(admin.getUsername(), PasswordUtil.hashPassword(admin.getPassword()));
         if (adminLoginResult) {
             boolean exits = false;
             do {

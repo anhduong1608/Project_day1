@@ -26,30 +26,30 @@ public class StudentPresentation {
                 System.err.println("email không được để trống mời nhập lại!");
             } else {
                 if (Validator.validateEmail(inputEmail)) {
-                    if (studentBusinessImp.isEmailStudent(inputEmail)) {
-                        student.setEmail(inputEmail);
-                        break;
-                    } else {
-                        System.err.println("email nhập vào chưa đúng!");
-                    }
+                    student.setEmail(inputEmail);
+                    break;
                 } else {
                     System.err.println("xin hãy nhập đúng định dạng email!");
                 }
             }
 
         } while (true);
-
+//        System.out.printf("%s",studentBusinessImp.getPasswordByEmailStudent(student.getEmail()));
         System.out.println("mời nhập mật khẩu đăng nhập : ");
         do {
             String inputPassword = scanner.next();
             if (inputPassword.trim().isEmpty()) {
                 System.err.println("mật khẩu không được để trống!");
             } else {
-                if (PasswordUtil.hashPassword(inputPassword).equals(studentBusinessImp.getPasswordByEmailStudent(student.getEmail()))) {
-                    student.setPassword(inputPassword);
+                String inputHash = PasswordUtil.hashPassword(inputPassword);
+                String dbHash = studentBusinessImp.getPasswordByEmailStudent(student.getEmail());
+
+                if (inputHash.equals(dbHash)) {
+                    student.setPassword(inputHash);
+                    scanner.nextLine();
                     break;
                 } else {
-                    System.err.println("mật khẩu không đúng vui lòng nhập lại");
+                    System.err.println("Mật khẩu không đúng. Vui lòng nhập lại.");
                 }
             }
 
