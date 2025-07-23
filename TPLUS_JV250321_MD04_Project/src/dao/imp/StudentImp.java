@@ -1,11 +1,14 @@
 package dao.imp;
 
 import dao.StudentDao;
+import entity.Student;
 import utils.ConnectionDB;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentImp implements StudentDao {
     @Override
@@ -49,6 +52,159 @@ public class StudentImp implements StudentDao {
             e.printStackTrace();
         } finally {
             ConnectionDB.closeConnection(stmt, conn);
+        }
+        return false;
+    }
+
+    @Override
+    public List<Student> getAllStudents() {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        ResultSet rs = null;
+        List<Student> students = new ArrayList<>();
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call trainingManagement.find_all_student()}");
+            rs = callSt.executeQuery();
+            while (rs.next()) {
+                Student student = new Student();
+                student.setId(rs.getInt("id"));
+                student.setName(rs.getString("name"));
+                student.setDob(rs.getDate("dob").toLocalDate());
+                student.setEmail(rs.getString("email"));
+                student.setSex(rs.getBoolean("sex"));
+                student.setPhone(rs.getString("phone"));
+                student.setPassword(rs.getString("password"));
+                student.setCreateAt(rs.getDate("create_at").toLocalDate());
+                students.add(student);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
+        }
+        return students;
+    }
+
+    @Override
+    public boolean addStudent(Student student) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call trainingManagement.save_student(?,?,?,?,?,?)}");
+            callSt.setString(1, student.getName());
+            callSt.setDate(2, java.sql.Date.valueOf(student.getDob()));
+            callSt.setString(3, student.getEmail());
+            callSt.setBoolean(4, student.isSex());
+            callSt.setString(5, student.getPhone());
+            callSt.setString(6, student.getPassword());
+            int rs = callSt.executeUpdate();
+            if (rs > 0) {
+                return true;
+            } else return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
+        }
+        return false;
+    }
+
+    @Override
+    public Student getStudentById(int id) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        ResultSet rs = null;
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call trainingManagement.find_student_by_id()}");
+            callSt.setInt(1, id);
+            rs = callSt.executeQuery();
+            if (rs.next()) {
+                Student student = new Student();
+                student.setId(rs.getInt("id"));
+                student.setName(rs.getString("name"));
+                student.setDob(rs.getDate("dob").toLocalDate());
+                student.setEmail(rs.getString("email"));
+                student.setSex(rs.getBoolean("sex"));
+                student.setPhone(rs.getString("phone"));
+                student.setPassword(rs.getString("password"));
+                student.setCreateAt(rs.getDate("create_at").toLocalDate());
+                return student;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean updateStudent(Student student) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call trainingManagement.update_student(?,?,?,?,?,?,?)}");
+            callSt.setInt(1, student.getId());
+            callSt.setString(2, student.getName());
+            callSt.setDate(3, java.sql.Date.valueOf(student.getDob()));
+            callSt.setString(4, student.getEmail());
+            callSt.setBoolean(5, student.isSex());
+            callSt.setString(6, student.getPhone());
+            callSt.setString(7, student.getPassword());
+            int rs = callSt.executeUpdate();
+            if (rs > 0) {
+                return true;
+            } else return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isStudentId(int id) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call trainingManagement.is_student_id(?,?)}");
+            callSt.setInt(1, id);
+            callSt.registerOutParameter(2, java.sql.Types.INTEGER);
+            callSt.execute();
+            int result = callSt.getInt(2);
+            if (result == 1) {
+                return true;
+            } else return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteStudent(int id) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call trainingManagement.delete_student_by_id(?)}");
+            callSt.setInt(1, id);
+            int rs = callSt.executeUpdate();
+            if (rs > 0) {
+                return true;
+            } else return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
         }
         return false;
     }

@@ -42,4 +42,14 @@ public class CourseBusinessImp implements CourseBusinessDao {
     public boolean updateCourse(Course course) {
         return courseImp.update(course);
     }
+
+    @Override
+    public boolean deleteCourse(Integer courseId) {
+        return courseImp.delete(courseId);
+    }
+
+    @Override
+    public List<Course> getCourseByName(String courseName) {
+        return courseImp.findCourseByName(courseName);
+    }
 }

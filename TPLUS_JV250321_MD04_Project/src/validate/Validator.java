@@ -20,6 +20,19 @@ public class Validator {
         }
     }
 
+    public static boolean isPhoneNumber(String data) {
+        String regex = "^[0-9]{10,11}$";
+        return data.matches(regex);
+    }
+
+    public static boolean isBoolean(String data) {
+        try {
+            return Boolean.parseBoolean(data);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     public static boolean isLocaldate(String data) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         try {

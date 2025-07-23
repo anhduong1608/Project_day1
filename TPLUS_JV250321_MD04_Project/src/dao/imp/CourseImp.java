@@ -151,4 +151,52 @@ public class CourseImp implements CourseDao {
         }
         return false;
     }
+
+    @Override
+    public boolean delete(Integer courseId) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call trainingManagement.delete_by_id(?)}");
+            callSt.setInt(1, courseId);
+            int affected = callSt.executeUpdate();
+            if (affected > 0) {
+                return true;
+            } else return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
+        }
+        return false;
+    }
+
+    @Override
+    public List<Course> findCourseByName(String courseName) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        ResultSet rs = null;
+        List<Course> courseList = new ArrayList<>();
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call trainingManagement.find_course_by_name(?)}");
+            callSt.setString(1, courseName);
+            rs = callSt.executeQuery();
+            while (rs.next()) {
+                Course course = new Course();
+                course.setId(rs.getInt("id"));
+                course.setName(rs.getString("name"));
+                course.setDuration(rs.getInt("duration"));
+                course.setInstructor(rs.getString("instructor"));
+                course.setCreateAt(rs.getDate("create_at").toLocalDate());
+                courseList.add(course);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
+        }
+        return courseList;
+    }
 }

@@ -11,5 +11,7 @@ public interface CourseBusinessDao {
     boolean checkCourseId(Integer courseId);
     Course getCourseById(Integer courseId);
     boolean updateCourse(Course course);
+    boolean deleteCourse(Integer courseId);
+    List<Course> getCourseByName(String courseName);
 
 }

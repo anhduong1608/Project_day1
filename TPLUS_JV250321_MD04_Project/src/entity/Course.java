@@ -79,4 +79,5 @@ public class Course {
                 id, name, duration, instructor, formattedDate
         );
     }
+
 }

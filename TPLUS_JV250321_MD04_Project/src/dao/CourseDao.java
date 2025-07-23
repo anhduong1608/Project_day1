@@ -11,4 +11,6 @@ public interface CourseDao {
     boolean isCourseId(Integer courseId);
     Course findCourseById(Integer courseId);
     boolean update(Course course);
+    boolean delete(Integer courseId);
+    List<Course> findCourseByName(String courseName);
 }

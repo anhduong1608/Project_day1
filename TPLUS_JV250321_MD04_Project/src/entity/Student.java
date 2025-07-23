@@ -110,6 +110,15 @@ public class Student {
         this.createAt = createAt;
     }
 
+    public Student(int id, String name, LocalDate dob, String email, boolean sex, String phone, String password) {
+        this.id = id;
+        this.name = name;
+        this.dob = dob;
+        this.email = email;
+        this.sex = sex;
+        this.phone = phone;
+        this.password = password;
+    }
 
     @Override
     public String toString() {

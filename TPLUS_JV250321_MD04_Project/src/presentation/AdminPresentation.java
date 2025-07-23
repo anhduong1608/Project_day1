@@ -3,6 +3,7 @@ package presentation;
 import business.imp.AdminBusinessImp;
 import dao.imp.AdminImp;
 import entity.Admin;
+import presentation.adminofmenu.MenuManagementCourse;
 import validate.PasswordUtil;
 import validate.Validator;
 
@@ -11,14 +12,16 @@ import java.util.Scanner;
 public class AdminPresentation {
     private final AdminBusinessImp adminBusinessImp;
     private final AdminImp adminImp;
+    private final MenuManagementCourse menuManagementCourse;
 
 
     public AdminPresentation() {
         adminBusinessImp = new AdminBusinessImp();
         adminImp = new AdminImp();
+        menuManagementCourse = new MenuManagementCourse();
     }
 
- public    void loginByAdmin(Scanner scanner) {
+    public void loginByAdmin(Scanner scanner) {
         Admin admin = new Admin();
         System.out.println("Đăng nhập với tư cách quản trị viên");
         System.out.println("mời nhập username : ");
@@ -27,7 +30,7 @@ public class AdminPresentation {
             if (input.trim().isEmpty()) {
                 System.err.println("mời nhập tên đăng nhập không được để trống");
             } else {
-                if (input.length()>=5) {
+                if (input.length() >= 5) {
                     admin.setUsername(input);
                     break;
                 } else {
@@ -66,6 +69,7 @@ public class AdminPresentation {
                     int choice = Integer.parseInt(scanner.nextLine());
                     switch (choice) {
                         case 1:
+                            menuManagementCourse.displayMenuManagementCourse(scanner);
                             break;
                         case 2:
                             break;
@@ -73,7 +77,8 @@ public class AdminPresentation {
                             break;
                         case 4:
                             break;
-                        case 5:exits = true;
+                        case 5:
+                            exits = true;
                             break;
                         default: {
                             System.err.println("nhập lựa chọn từ 1 đến 5");
