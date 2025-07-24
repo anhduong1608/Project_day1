@@ -7,11 +7,11 @@ import dao.imp.LoginDaoImp;
 import entity.Course;
 import entity.Enrollment;
 import entity.Student;
-import org.w3c.dom.ls.LSOutput;
 import presentation.adminofmenu.MenuManagementCourse;
 import validate.PasswordUtil;
 import validate.Validator;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -96,8 +96,10 @@ public class StudentPresentation {
                             displayCourseByStudentId(scanner, student);
                             break;
                         case 4:
+                            deleteEnrollmentByStudentId(scanner, student);
                             break;
                         case 5:
+                            updatePassword(scanner,student);
                             break;
                         case 6:
                             exits = true;
@@ -180,16 +182,27 @@ public class StudentPresentation {
                     int choice = Integer.parseInt(scanner.next());
                     switch (choice) {
                         case 1:
+                            System.out.println("Danh sách khóa học của bạn : \n");
+                            courses.stream().sorted(Comparator.comparing(Course::getName)).forEach(System.out::println);
                             break;
                         case 2:
+                            System.out.println("Danh sách khóa học của bạn : \n");
+                            courses.stream().sorted(Comparator.comparing(Course::getName).reversed()).forEach(System.out::println);
                             break;
                         case 3:
+                            System.out.println("Danh sách khóa học của bạn : \n");
+                            courses.stream().sorted(Comparator.comparing(Course::getCreateAt)).forEach(System.out::println);
                             break;
                         case 4:
+                            System.out.println("Danh sách khóa học của bạn : \n");
+                            courses.stream().sorted(Comparator.comparing(Course::getCreateAt).reversed()).forEach(System.out::println);
                             break;
                         case 5:
+                            exit = true;
                             break;
-
+                        default: {
+                            System.err.println("Nhập lựa chọn từ 1 đến 5 !");
+                        }
                     }
                 } catch (Exception npe) {
                     System.err.println("Nhập vào số nguyên thích hợp!");
@@ -198,6 +211,55 @@ public class StudentPresentation {
 
             } while (!exit);
 
+        }
+    }
+
+    void deleteEnrollmentByStudentId(Scanner scanner, Student idStudent) {
+        int idCourse;
+        do {
+            System.out.println("nhập ID course muốn xóa đăng kí");
+            String input = scanner.nextLine();
+            if (input.trim().isEmpty()) {
+                System.err.println("Nhập ID không được để trống");
+            } else {
+                if (Validator.isInt(input)) {
+                    idCourse = Integer.parseInt(input);
+
+                    break;
+                } else {
+                    System.err.println("Nhập ID là số nguyên dương");
+                }
+            }
+        } while (true);
+        boolean result = studentBusinessImp.deleteEnrolment(idCourse, idStudent.getId());
+        if (result) {
+            System.out.println("Xóa đăng ký thành công");
+        }
+        System.err.println("Xóa đăng ký không thành công!");
+    }
+
+    void updatePassword(Scanner scanner, Student student) {
+        System.out.println("mời nhập pass cũ : ");
+        String pass = scanner.nextLine();
+        if (PasswordUtil.hashPassword(pass).equals(student.getPassword())) {
+            System.out.println("mời nhập emai hoặc SDT đăng ký");
+            String check = scanner.nextLine();
+            if (check.equals(student.getEmail()) || check.equals(student.getPhone())) {
+                System.out.println("mời nhập mật khẩu mới : ");
+                String newPass = scanner.nextLine();
+                String hashPass = PasswordUtil.hashPassword(newPass);
+                student.setPassword(hashPass);
+                boolean result = studentBusinessImp.updatePassStudent(student);
+                if (result) {
+                    System.out.println("Đổi mật khẩu thành công!");
+                }else {
+                    System.err.println("Đổi mật khẩu thất bại");
+                }
+            }else {
+                System.err.println("Email hoặc SDT không đúng!");
+            }
+        } else {
+            System.err.println("Pass cũ không đúng không thể thay đổi pass mới!");
         }
     }
 }

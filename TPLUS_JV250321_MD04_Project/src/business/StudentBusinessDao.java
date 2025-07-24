@@ -18,4 +18,6 @@ public interface StudentBusinessDao {
     List<Student> getStudentByName(String name);
     List<Student> getStudentByEmail(String email);
     List<Course> getCoursesByStudentId(int idStudent);
+    boolean deleteEnrolment(int idCourse,int idStudent);
+    boolean updatePassStudent(Student student);
 }

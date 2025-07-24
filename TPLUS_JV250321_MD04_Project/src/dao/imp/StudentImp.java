@@ -8,6 +8,7 @@ import utils.ConnectionDB;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -300,5 +301,45 @@ public class StudentImp implements StudentDao {
             }
         }
         return courses;
+    }
+
+    @Override
+    public boolean deleteEnrollmentByStudent(int courseId, int studentId) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{CALL trainingManagement.delete_enrollment(?,?)}");
+            callSt.setInt(1, courseId);
+            callSt.setInt(2, studentId);
+            callSt.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("SQL Error: " + e.getMessage());
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updatePassStudent(Student student) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{CALL trainingManagement.update_pass_student(?,?)}");
+            callSt.setInt(1, student.getId());
+            callSt.setString(2, student.getPassword());
+            int affected = callSt.executeUpdate();
+            if (affected > 0) {
+                return true;
+            } else return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
+        }
+        return false;
     }
 }

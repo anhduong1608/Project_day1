@@ -120,6 +120,11 @@ public class Student {
         this.password = password;
     }
 
+    public Student(int id, String password) {
+        this.id = id;
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");

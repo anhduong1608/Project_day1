@@ -77,4 +77,14 @@ public class StudentBusinessImp implements StudentBusinessDao {
     public List<Course> getCoursesByStudentId(int idStudent) {
         return sStudentImp.getCourseByStudentId(idStudent);
     }
+
+    @Override
+    public boolean deleteEnrolment(int idCourse, int idStudent) {
+        return sStudentImp.deleteEnrollmentByStudent(idStudent, idCourse);
+    }
+
+    @Override
+    public boolean updatePassStudent(Student student) {
+        return sStudentImp.updatePassStudent(student);
+    }
 }
