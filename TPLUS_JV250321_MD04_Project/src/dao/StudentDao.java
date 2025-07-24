@@ -1,5 +1,6 @@
 package dao;
 
+import entity.Course;
 import entity.Student;
 
 import java.util.List;
@@ -13,4 +14,7 @@ public interface StudentDao {
     boolean updateStudent(Student student);
     boolean isStudentId(int id);
     boolean deleteStudent(int id);
+    List<Student> getStudentByEmail(String email);
+    List<Student> getStudentByName(String name);
+    List<Course> getCourseByStudentId(int id);
 }

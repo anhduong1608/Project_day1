@@ -7,6 +7,8 @@ import validate.Validator;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -43,8 +45,10 @@ public class MenuManagementStudent {
                         deleteStudent(scanner);
                         break;
                     case 5:
+                        searchStudentMenu(scanner);
                         break;
                     case 6:
+                        sortStudentMenu(scanner);
                         break;
                     case 7:
                         exits = true;
@@ -185,8 +189,9 @@ public class MenuManagementStudent {
     }
 
     void updateStudentMenu(Scanner scanner) {
-        System.out.println("Nhập ID sinh viên muốn cập nhật chỉnh sửa thông tin :");
+
         do {
+            System.out.println("Nhập ID sinh viên muốn cập nhật chỉnh sửa thông tin :");
             String id = scanner.nextLine();
             if (id.trim().isEmpty()) {
                 System.err.println("nhập ID không được để trống");
@@ -278,6 +283,7 @@ public class MenuManagementStudent {
                         Student student = studentBusinessImp.getStudentById(idStudent);
                         System.out.println("đối tượng bạn muốn xóa \n");
                         System.out.println(student);
+                        scanner.nextLine();
                         System.out.println("Bạn có muốn xóa không Y/N ");
                         String deleteChoice = scanner.nextLine();
                         if (deleteChoice.equalsIgnoreCase("y")) {
@@ -302,6 +308,150 @@ public class MenuManagementStudent {
             }
 
         } while (true);
+    }
+
+    void searchStudentMenu(Scanner scanner) {
+        boolean exits = false;
+        do {
+            try {
+                System.out.println("1. Tìm kiếm theo tên");
+                System.out.println("2. Tìm kiếm theo email");
+                System.out.println("3. Tìm kiếm theo ID");
+                System.out.println("4. thoát");
+                System.out.print("lựa chọn của bạn :  ");
+                int choice = Integer.parseInt(scanner.nextLine());
+                switch (choice) {
+                    case 1:
+                        displayStudentByName(scanner);
+                        break;
+                    case 2:
+                        displayStudentByEmail(scanner);
+                        break;
+                    case 3:
+                        displayStudentByID(scanner);
+                        break;
+                    case 4:
+                        exits = true;
+                        break;
+                    default: {
+                        System.err.println("Mời bạn chọn từ 1 đến 4");
+                    }
+                }
+            } catch (NullPointerException npe) {
+                System.err.println("mời bạn nhập vào dạng số thích hợp");
+            }
+
+        } while (!exits);
+    }
+
+    void displayStudentByName(Scanner scanner) {
+        System.out.println("Nhập tên tương đối cần tìm : ");
+        do {
+            String name = scanner.nextLine();
+            if (name.trim().isEmpty()) {
+                System.err.println("Tên nhập để tìm không được để trống");
+            } else {
+                List<Student> students = studentBusinessImp.getStudentByName(name);
+                if (students.isEmpty()) {
+                    System.err.println("Danh sách tìm trống không có đối tượng phù hợp");
+                    break;
+                } else {
+                    System.out.println("Danh sách được tìm thấy gồm : \n");
+                    students.forEach(System.out::println);
+                    break;
+                }
+            }
+        } while (true);
+    }
+
+    void displayStudentByID(Scanner scanner) {
+        System.out.println("Mời nhập ID cần tìm : ");
+        do {
+            String inputID = scanner.nextLine();
+            if (inputID.trim().isEmpty()) {
+                System.err.println("Mời nhập ID cần tìm không được để trống!");
+            } else {
+                if (Validator.isInt(inputID)) {
+                    int idStudent = Integer.parseInt(inputID);
+                    Student student = studentBusinessImp.getStudentById(idStudent);
+                    if (student == null) {
+                        System.err.println("không tìm thấy đối tượng nào");
+                        break;
+                    } else {
+                        System.out.println("Sinh viên tìm thấy là : \n");
+                        System.out.println(student);
+                        break;
+                    }
+                } else {
+                    System.err.println("ID phải là dạng số nguyên dương!");
+                }
+            }
+
+        } while (true);
+    }
+
+    void displayStudentByEmail(Scanner scanner) {
+        System.out.println("Mời nhập email tương đối cần tìm kiếm : ");
+        do {
+            String inputEmail = scanner.nextLine();
+            if (inputEmail.trim().isEmpty()) {
+                System.err.println("Mời nhập email không được để email trống!");
+            } else {
+                List<Student> students = studentBusinessImp.getStudentByEmail(inputEmail);
+                if (students.isEmpty()) {
+                    System.err.println("Không tìm thấy sinh viên nào!");
+                    break;
+                } else {
+                    System.out.println("Danh sách sinh viên tìm thấy : \n");
+                    students.forEach(System.out::println);
+                    break;
+                }
+            }
+
+        } while (true);
+    }
+
+    void sortStudentMenu(Scanner scanner) {
+        List<Student> students = studentBusinessImp.getAllStudents();
+        if (students.isEmpty()) {
+            System.err.println("Danh sách hiện đang trống!");
+        } else {
+            boolean exits = false;
+            do {
+                try {
+                    System.out.println("1. Sắp xếp theo tên tăng dần");
+                    System.out.println("2. Sắp xếp theo tên giảm dần");
+                    System.out.println("3. Sắp xếp theo ID tăng dần");
+                    System.out.println("4. Sắp xếp theo ID giảm dần");
+                    System.out.println("5. thoát");
+                    System.out.print("lựa chọn của bạn là : ");
+                    int choice = Integer.parseInt(scanner.nextLine());
+                    switch (choice) {
+                        case 1:
+                            students.stream().sorted(Comparator.comparing(Student::getName)).forEach(System.out::println);
+                            break;
+                        case 2:
+                            students.stream().sorted(Comparator.comparing(Student::getName).reversed()).forEach(System.out::println);
+                            break;
+                        case 3:
+                            students.stream().sorted(Comparator.comparing(Student::getId)).forEach(System.out::println);
+                            break;
+                        case 4:
+                            students.stream().sorted(Comparator.comparing(Student::getId).reversed()).forEach(System.out::println);
+                            break;
+                        case 5:
+                            exits = true;
+                            break;
+                        default: {
+                            System.err.println("Mời bạn nhập lựa chọn từ 1 đền 5");
+                        }
+                    }
+                } catch (NumberFormatException nfe) {
+                    System.err.println("Mời bạn nhập vào số nguyên dương phù hợp");
+                }
+
+            } while (!exits);
+        }
     }
 
 }

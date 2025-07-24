@@ -1,5 +1,6 @@
 package business;
 
+import entity.Course;
 import entity.Student;
 
 import java.util.List;
@@ -14,4 +15,7 @@ public interface StudentBusinessDao {
     boolean isStudentId(int idStudent);
     Student getStudentById(int idStudent);
     boolean deleteStudent(int idStudent);
+    List<Student> getStudentByName(String name);
+    List<Student> getStudentByEmail(String email);
+    List<Course> getCoursesByStudentId(int idStudent);
 }

@@ -4,6 +4,7 @@ import business.imp.AdminBusinessImp;
 import dao.imp.AdminImp;
 import entity.Admin;
 import presentation.adminofmenu.MenuManagementCourse;
+import presentation.adminofmenu.MenuManagementStudent;
 import validate.PasswordUtil;
 import validate.Validator;
 
@@ -13,12 +14,14 @@ public class AdminPresentation {
     private final AdminBusinessImp adminBusinessImp;
     private final AdminImp adminImp;
     private final MenuManagementCourse menuManagementCourse;
+    private final MenuManagementStudent menuManagementStudent;
 
 
     public AdminPresentation() {
         adminBusinessImp = new AdminBusinessImp();
         adminImp = new AdminImp();
         menuManagementCourse = new MenuManagementCourse();
+        menuManagementStudent = new MenuManagementStudent();
     }
 
     public void loginByAdmin(Scanner scanner) {
@@ -72,6 +75,7 @@ public class AdminPresentation {
                             menuManagementCourse.displayMenuManagementCourse(scanner);
                             break;
                         case 2:
+                            menuManagementStudent.displayMenuManagementStudent(scanner);
                             break;
                         case 3:
                             break;

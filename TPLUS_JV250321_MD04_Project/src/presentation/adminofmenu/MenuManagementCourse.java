@@ -15,7 +15,7 @@ public class MenuManagementCourse {
         courseBusinessImp = new CourseBusinessImp();
     }
 
- public void displayMenuManagementCourse(Scanner scanner) {
+    public void displayMenuManagementCourse(Scanner scanner) {
         boolean exits = false;
         do {
 
@@ -63,7 +63,7 @@ public class MenuManagementCourse {
 
     }
 
-    void displayCourse(Scanner scanner) {
+  public  void displayCourse(Scanner scanner) {
         List<Course> courses = courseBusinessImp.getCourses();
         if (courses.isEmpty()) {
             System.err.println("hiện tại danh sách đang trống");
@@ -129,8 +129,9 @@ public class MenuManagementCourse {
     }
 
     void menuUpdateCourse(Scanner scanner) {
-        System.out.println("Bạn hãy nhập Id course cần cập nhật sửa đổi :");
+
         do {
+            System.out.println("Bạn hãy nhập Id course cần cập nhật sửa đổi :");
             String input = scanner.nextLine();
             if (input.trim().isEmpty()) {
                 System.err.println("ID không được để trống ");
@@ -181,7 +182,12 @@ public class MenuManagementCourse {
                             break;
                         }
                     } else {
-                        System.err.println("ID không có khóa học nào phù hợp");
+                        System.err.println("ID không có khóa học nào phù hợp bạn có muốn nhập tìm kiềm lại không Y/N");
+                        String choice = scanner.nextLine();
+                        if (choice.equalsIgnoreCase("n")) {
+                            break;
+                        }
+
                     }
                 } else {
                     System.err.println("ID phải là số nguyen dương!");

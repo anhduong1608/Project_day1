@@ -1,6 +1,7 @@
 package dao.imp;
 
 import dao.StudentDao;
+import entity.Course;
 import entity.Student;
 import utils.ConnectionDB;
 
@@ -207,5 +208,97 @@ public class StudentImp implements StudentDao {
             ConnectionDB.closeConnection(callSt, conn);
         }
         return false;
+    }
+
+    @Override
+    public List<Student> getStudentByEmail(String email) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        ResultSet rs = null;
+        List<Student> students = new ArrayList<>();
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call trainingManagement.find_student_by_email(?)}");
+            callSt.setString(1, email);
+            rs = callSt.executeQuery();
+            while (rs.next()) {
+                Student student = new Student();
+                student.setId(rs.getInt("id"));
+                student.setName(rs.getString("name"));
+                student.setDob(rs.getDate("dob").toLocalDate());
+                student.setEmail(rs.getString("email"));
+                student.setPhone(rs.getString("phone"));
+                student.setPassword(rs.getString("password"));
+                student.setCreateAt(rs.getDate("create_at").toLocalDate());
+                students.add(student);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
+        }
+        return students;
+    }
+
+    @Override
+    public List<Student> getStudentByName(String name) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        ResultSet rs = null;
+        List<Student> students = new ArrayList<>();
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call trainingManagement.find_student_by_name(?)}");
+            callSt.setString(1, name);
+            rs = callSt.executeQuery();
+            while (rs.next()) {
+                Student student = new Student();
+                student.setId(rs.getInt("id"));
+                student.setName(rs.getString("name"));
+                student.setDob(rs.getDate("dob").toLocalDate());
+                student.setEmail(rs.getString("email"));
+                student.setPhone(rs.getString("phone"));
+                student.setPassword(rs.getString("password"));
+                student.setCreateAt(rs.getDate("create_at").toLocalDate());
+                students.add(student);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
+        }
+        return students;
+    }
+
+    @Override
+    public List<Course> getCourseByStudentId(int id) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        ResultSet rs = null;
+        List<Course> courses = new ArrayList<>();
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call trainingManagement.find_course_enrollment(?)}");
+            callSt.setInt(1, id);
+            rs = callSt.executeQuery();
+            while (rs.next()) {
+                Course course = new Course();
+                course.setId(rs.getInt("id"));
+                course.setName(rs.getString("name"));
+                course.setDuration(rs.getInt("duration"));
+                course.setInstructor(rs.getString("instructor"));
+                course.setCreateAt(rs.getDate("create_at").toLocalDate());
+                courses.add(course);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ConnectionDB.closeConnection(callSt, conn);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return courses;
     }
 }

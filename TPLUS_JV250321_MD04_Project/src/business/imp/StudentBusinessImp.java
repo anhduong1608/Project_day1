@@ -3,6 +3,7 @@ package business.imp;
 import business.StudentBusinessDao;
 import dao.imp.LoginDaoImp;
 import dao.imp.StudentImp;
+import entity.Course;
 import entity.Student;
 
 import java.util.List;
@@ -60,5 +61,20 @@ public class StudentBusinessImp implements StudentBusinessDao {
     @Override
     public boolean deleteStudent(int idStudent) {
         return sStudentImp.deleteStudent(idStudent);
+    }
+
+    @Override
+    public List<Student> getStudentByName(String name) {
+        return sStudentImp.getStudentByName(name);
+    }
+
+    @Override
+    public List<Student> getStudentByEmail(String email) {
+        return sStudentImp.getStudentByEmail(email);
+    }
+
+    @Override
+    public List<Course> getCoursesByStudentId(int idStudent) {
+        return sStudentImp.getCourseByStudentId(idStudent);
     }
 }

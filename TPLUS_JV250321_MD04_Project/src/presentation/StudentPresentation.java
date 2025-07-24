@@ -1,20 +1,35 @@
 package presentation;
 
+import business.imp.CourseBusinessImp;
+import business.imp.EnrollmentBusinessImp;
 import business.imp.StudentBusinessImp;
 import dao.imp.LoginDaoImp;
+import entity.Course;
+import entity.Enrollment;
 import entity.Student;
+import org.w3c.dom.ls.LSOutput;
+import presentation.adminofmenu.MenuManagementCourse;
 import validate.PasswordUtil;
 import validate.Validator;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class StudentPresentation {
     private final StudentBusinessImp studentBusinessImp;
     private final LoginDaoImp loginDaoImp;
+    private final MenuManagementCourse menuManagementCourse;
+    private final EnrollmentBusinessImp enrollmentBusinessImp;
+    private final MenuManagementCourse menuManagementCourseImp;
+    private final CourseBusinessImp courseBusinessImp;
 
     public StudentPresentation() {
         studentBusinessImp = new StudentBusinessImp();
         loginDaoImp = new LoginDaoImp();
+        menuManagementCourse = new MenuManagementCourse();
+        enrollmentBusinessImp = new EnrollmentBusinessImp();
+        menuManagementCourseImp = new MenuManagementCourse();
+        courseBusinessImp = new CourseBusinessImp();
     }
 
     public void loginByStudent(Scanner scanner) {
@@ -72,10 +87,13 @@ public class StudentPresentation {
                     int choice = Integer.parseInt(scanner.next());
                     switch (choice) {
                         case 1:
+                            menuManagementCourse.displayCourse(scanner);
                             break;
                         case 2:
+                            enrollmentCourse(scanner, student);
                             break;
                         case 3:
+                            displayCourseByStudentId(scanner, student);
                             break;
                         case 4:
                             break;
@@ -98,6 +116,59 @@ public class StudentPresentation {
         } else {
             System.err.println("Đăng nhập thất bại! xin hay đăng nhập lại!");
         }
+
     }
 
+
+    void enrollmentCourse(Scanner scanner, Student student) {
+        Enrollment enrollment = new Enrollment();
+        do {
+            System.out.println("nhập ID khóa học muốn đăng ký :");
+            String string = scanner.next();
+            if (string.trim().isEmpty()) {
+                System.err.println("Nhập ID muốn đăng ký không được để trống!");
+            } else {
+                if (Validator.isInt(string)) {
+                    int id = Integer.parseInt(string);
+                    if (courseBusinessImp.checkCourseId(id)) {
+                        System.out.println("Khóa học bạn muốn đăng ký : \n");
+                        Course course = courseBusinessImp.getCourseById(id);
+                        System.out.println(course);
+                        System.out.println("Bạn có muốn Đăng ký khóa học này không Y/N ");
+                        String choice = scanner.nextLine();
+                        if (choice.equalsIgnoreCase("y")) {
+                            enrollment.setCourseId(id);
+                            break;
+                        } else {
+                            return;
+                        }
+                    } else {
+                        System.err.println("ID khoá học không đúng bạn có muốn nhập lại không Y/N");
+                        String choice = scanner.nextLine();
+                        if (choice.equalsIgnoreCase("n")) return;
+                    }
+                } else {
+                    System.err.println("Nhập ID phải là số nguyên dương");
+                }
+            }
+        } while (true);
+        enrollment.setStudent_id(student.getId());
+        boolean result = enrollmentBusinessImp.createEnrollment(enrollment);
+        if (result) {
+            System.out.println("Đăng ký thành công chờ xác nhận");
+        } else {
+            System.err.println("Đăng ký thất bại!");
+        }
+    }
+
+    void displayCourseByStudentId(Scanner scanner, Student student) {
+        List<Course> courses = studentBusinessImp.getCoursesByStudentId(student.getId());
+        if (courses.isEmpty()) {
+            System.out.println("Hiện chưa đăng ký khóa học nào");
+        } else {
+            System.out.println("Các khóa học đã đăng ký : \n");
+            courses.forEach(System.out::println);
+
+        }
+    }
 }
