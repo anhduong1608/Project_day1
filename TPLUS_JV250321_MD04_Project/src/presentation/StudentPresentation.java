@@ -168,6 +168,35 @@ public class StudentPresentation {
         } else {
             System.out.println("Các khóa học đã đăng ký : \n");
             courses.forEach(System.out::println);
+            boolean exit = false;
+            do {
+                try {
+                    System.out.println("1. Danh sách sắp xếp theo tên khóa học tăng dần");
+                    System.out.println("2. Danh sách sắp xếp theo tên khóa học giảm dần");
+                    System.out.println("3. Danh sách sắp xếp theo ngày đăng ký khóa học tăng dần");
+                    System.out.println("4. Danh sách sắp xếp theo ngày đăng ký khóa học giảm dần");
+                    System.out.println("5. thoát");
+                    System.out.print("lựa chọn của bạn : ");
+                    int choice = Integer.parseInt(scanner.next());
+                    switch (choice) {
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 5:
+                            break;
+
+                    }
+                } catch (Exception npe) {
+                    System.err.println("Nhập vào số nguyên thích hợp!");
+                }
+
+
+            } while (!exit);
 
         }
     }

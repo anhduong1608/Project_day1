@@ -110,14 +110,18 @@ public class CourseImp implements CourseDao {
         Connection conn = null;
         CallableStatement callSt = null;
         ResultSet rs = null;
+        Course course = new Course();
         try {
             conn = ConnectionDB.openConnection();
             callSt = conn.prepareCall("{call trainingManagement.find_course_by_id(?)}");
             callSt.setInt(1, courseId);
             rs = callSt.executeQuery();
             if (rs.next()) {
-                Course course = new Course();
                 course.setId(rs.getInt("id"));
+                course.setName(rs.getString("name"));
+                course.setDuration(rs.getInt("duration"));
+                course.setInstructor(rs.getString("instructor"));
+                course.setCreateAt(rs.getDate("create_at").toLocalDate());
             }
 
         } catch (Exception e) {
@@ -125,7 +129,7 @@ public class CourseImp implements CourseDao {
         } finally {
             ConnectionDB.closeConnection(null, conn);
         }
-        return null;
+        return course;
     }
 
     @Override

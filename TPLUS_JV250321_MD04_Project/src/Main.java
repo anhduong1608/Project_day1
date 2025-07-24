@@ -26,7 +26,7 @@ public class Main {
                 System.out.println("1. Đăng nhập với tư cách quản trị viên.");
                 System.out.println("2. Đăng nhập với tư cách quản học viên.");
                 System.out.println("3. Thoát.");
-                System.out.printf("xin moi lua chon");
+                System.out.printf("xin moi lua chon : ");
                 int choice = Integer.parseInt(sc.nextLine());
                 switch (choice) {
                     case 1:
@@ -38,7 +38,7 @@ public class Main {
                     case 3:
                         System.exit(0);
                 }
-            } catch (NullPointerException ex) {
+            } catch (Exception ex) {
                 System.err.println("xin lựa chọn bằng số thích hợp!");
             }
 

@@ -63,7 +63,7 @@ public class MenuManagementCourse {
 
     }
 
-  public  void displayCourse(Scanner scanner) {
+    public void displayCourse(Scanner scanner) {
         List<Course> courses = courseBusinessImp.getCourses();
         if (courses.isEmpty()) {
             System.err.println("hiện tại danh sách đang trống");
@@ -148,7 +148,7 @@ public class MenuManagementCourse {
                                 System.out.println("1. Cập nhật tên khóa học : ");
                                 System.out.println("2. Cập nhật thời gian khóa học : ");
                                 System.out.println("3. Cập nhật giáo viên phụ trách : ");
-                                System.out.println("5. Quay lại menu chính : ");
+                                System.out.println("4. Quay lại menu chính : ");
                                 System.out.print("Lựa chọn của bạn : ");
                                 int choice = Integer.parseInt(scanner.nextLine());
                                 switch (choice) {
@@ -198,8 +198,9 @@ public class MenuManagementCourse {
     }
 
     void deleteCourse(Scanner scanner) {
-        System.out.println("Nhập ID khóa học muốn xóa : ");
+
         do {
+            System.out.println("Nhập ID khóa học muốn xóa : ");
             String input = scanner.nextLine();
             if (input.trim().isEmpty()) {
                 System.out.println("ID muốn xóa không được để trống :");
