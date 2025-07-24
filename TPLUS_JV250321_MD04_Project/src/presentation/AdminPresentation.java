@@ -3,8 +3,10 @@ package presentation;
 import business.imp.AdminBusinessImp;
 import dao.imp.AdminImp;
 import entity.Admin;
+import presentation.adminofmenu.MenuEnrollment;
 import presentation.adminofmenu.MenuManagementCourse;
 import presentation.adminofmenu.MenuManagementStudent;
+import presentation.adminofmenu.MenuStatistic;
 import validate.PasswordUtil;
 import validate.Validator;
 
@@ -15,6 +17,8 @@ public class AdminPresentation {
     private final AdminImp adminImp;
     private final MenuManagementCourse menuManagementCourse;
     private final MenuManagementStudent menuManagementStudent;
+    private final MenuEnrollment menuEnrollment;
+    private final MenuStatistic menuStatistic1;
 
 
     public AdminPresentation() {
@@ -22,6 +26,8 @@ public class AdminPresentation {
         adminImp = new AdminImp();
         menuManagementCourse = new MenuManagementCourse();
         menuManagementStudent = new MenuManagementStudent();
+        menuEnrollment = new MenuEnrollment();
+        menuStatistic1 = new MenuStatistic();
     }
 
     public void loginByAdmin(Scanner scanner) {
@@ -78,8 +84,10 @@ public class AdminPresentation {
                             menuManagementStudent.displayMenuManagementStudent(scanner);
                             break;
                         case 3:
+                            menuEnrollment.displayMenuEnrollment(scanner);
                             break;
                         case 4:
+                            menuStatistic1.menuStatistic(scanner);
                             break;
                         case 5:
                             exits = true;

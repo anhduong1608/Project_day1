@@ -313,7 +313,8 @@ public class StudentImp implements StudentDao {
             callSt.setInt(1, courseId);
             callSt.setInt(2, studentId);
             callSt.execute();
-            return true;
+            int result = callSt.getUpdateCount();
+            return result > 0;
         } catch (SQLException e) {
             System.err.println("SQL Error: " + e.getMessage());
         } finally {
