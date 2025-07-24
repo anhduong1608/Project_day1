@@ -11,6 +11,7 @@ import presentation.adminofmenu.MenuManagementCourse;
 import validate.PasswordUtil;
 import validate.Validator;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
@@ -64,7 +65,7 @@ public class StudentPresentation {
                     scanner.nextLine();
                     break;
                 } else {
-                    System.err.println("Mật khẩu không đúng. Vui lòng nhập lại.");
+                    System.err.println("Mật khẩu hoặc email không đúng. Vui lòng nhập lại.");
                 }
             }
 
@@ -73,6 +74,7 @@ public class StudentPresentation {
         boolean studentLoginResult = studentBusinessImp.loginStudent(student.getEmail(), student.getPassword());
         if (studentLoginResult) {
             System.out.println("Sinh viên đăng nhập thành công!\n");
+            student = studentBusinessImp.getStudentFromEmail(student.getEmail());
             boolean exits = false;
             do {
                 try {
@@ -99,7 +101,7 @@ public class StudentPresentation {
                             deleteEnrollmentByStudentId(scanner, student);
                             break;
                         case 5:
-                            updatePassword(scanner,student);
+                            updatePassword(scanner, student);
                             break;
                         case 6:
                             exits = true;
@@ -124,36 +126,51 @@ public class StudentPresentation {
 
     void enrollmentCourse(Scanner scanner, Student student) {
         Enrollment enrollment = new Enrollment();
+        List<Course> enrollmentCourseList = studentBusinessImp.getCoursesByStudentId(student.getId());
+        System.out.println("Danh sách khóa học : ");
+        scanner.nextLine();
+        List<Course> courses = courseBusinessImp.getCourses();
+        courses.forEach(System.out::println);
         do {
             System.out.println("nhập ID khóa học muốn đăng ký :");
-            String string = scanner.next();
+            String string = scanner.nextLine();
+
             if (string.trim().isEmpty()) {
                 System.err.println("Nhập ID muốn đăng ký không được để trống!");
+                scanner.nextLine();
             } else {
                 if (Validator.isInt(string)) {
                     int id = Integer.parseInt(string);
                     if (courseBusinessImp.checkCourseId(id)) {
-                        System.out.println("Khóa học bạn muốn đăng ký : \n");
-                        Course course = courseBusinessImp.getCourseById(id);
-                        System.out.println(course);
-                        System.out.println("Bạn có muốn Đăng ký khóa học này không Y/N ");
-                        String choice = scanner.nextLine();
-                        if (choice.equalsIgnoreCase("y")) {
-                            enrollment.setCourseId(id);
-                            break;
+                        if (enrollmentCourseList.stream().anyMatch(course -> course.getId() == id)) {
+                            System.err.println("Khóa học này bạn đã đăng ký rồi xin mời đăng ký khóa học khác không Y/N");
+                            if (scanner.nextLine().trim().equalsIgnoreCase("n")) {
+                                return;
+                            }
+                            continue;
                         } else {
-                            return;
+                            System.out.println("Khóa học bạn muốn đăng ký : ");
+                            Course course = courseBusinessImp.getCourseById(id);
+                            System.out.println(course);
+                            System.out.println("Bạn có muốn Đăng ký khóa học này không Y/N ");
+                            if (scanner.nextLine().equalsIgnoreCase("y")) {
+                                enrollment.setCourseId(id);
+                                break;
+                            } else {
+                                return;
+                            }
                         }
                     } else {
                         System.err.println("ID khoá học không đúng bạn có muốn nhập lại không Y/N");
-                        String choice = scanner.nextLine();
-                        if (choice.equalsIgnoreCase("n")) return;
+                        if (scanner.nextLine().equalsIgnoreCase("n")) return;
                     }
                 } else {
                     System.err.println("Nhập ID phải là số nguyên dương");
+                    scanner.nextLine();
                 }
             }
         } while (true);
+//        System.out.println(student.getId());
         enrollment.setStudent_id(student.getId());
         boolean result = enrollmentBusinessImp.createEnrollment(enrollment);
         if (result) {
@@ -218,6 +235,7 @@ public class StudentPresentation {
         int idCourse;
         do {
             System.out.println("nhập ID course muốn xóa đăng kí");
+            scanner.nextLine();
             String input = scanner.nextLine();
             if (input.trim().isEmpty()) {
                 System.err.println("Nhập ID không được để trống");
@@ -252,10 +270,10 @@ public class StudentPresentation {
                 boolean result = studentBusinessImp.updatePassStudent(student);
                 if (result) {
                     System.out.println("Đổi mật khẩu thành công!");
-                }else {
+                } else {
                     System.err.println("Đổi mật khẩu thất bại");
                 }
-            }else {
+            } else {
                 System.err.println("Email hoặc SDT không đúng!");
             }
         } else {

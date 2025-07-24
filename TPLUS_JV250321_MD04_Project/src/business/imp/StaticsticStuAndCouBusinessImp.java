@@ -34,5 +34,10 @@ public class StaticsticStuAndCouBusinessImp implements StaticsticStuAndCouBusine
         return staticsticStuAndCouImp.getStatisticStudentByCourseByAdmin();
     }
 
+    @Override
+    public List<StatisticStudentByCourse> upTenCourse1() {
+        return staticsticStuAndCouImp.upTenCourse();
+    }
+
 
 }

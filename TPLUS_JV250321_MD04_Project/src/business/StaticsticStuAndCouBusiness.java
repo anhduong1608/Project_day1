@@ -9,4 +9,5 @@ public interface StaticsticStuAndCouBusiness {
     StatisticStudentAndCourse getStatisticStudentAndCourse();
     List<StatisticStudentByCourse> getStatisticStudentByCourse();
     List<StatisticStudentByCourse> getStatisticStudentByCourseByAdmin();
+    List<StatisticStudentByCourse> upTenCourse1();
 }

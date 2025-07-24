@@ -87,4 +87,9 @@ public class StudentBusinessImp implements StudentBusinessDao {
     public boolean updatePassStudent(Student student) {
         return sStudentImp.updatePassStudent(student);
     }
+
+    @Override
+    public Student getStudentFromEmail(String email) {
+        return sStudentImp.getStudentfromEmail(email);
+    }
 }

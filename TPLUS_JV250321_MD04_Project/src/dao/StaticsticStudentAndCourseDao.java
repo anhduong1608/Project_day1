@@ -9,6 +9,7 @@ public interface StaticsticStudentAndCourseDao {
     StatisticStudentAndCourse getStatisticStudentAndCourseById();
     List<StatisticStudentByCourse> getStatisticStudentByCourse();
     List<StatisticStudentByCourse> getStatisticStudentByCourseByAdmin();
+    List<StatisticStudentByCourse> upTenCourse();
 
 
 }

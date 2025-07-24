@@ -24,7 +24,7 @@ public class MenuEnrollment {
         studentBusinessImp = new StudentBusinessImp();
     }
 
-   public void displayMenuEnrollment(Scanner sc) {
+    public void displayMenuEnrollment(Scanner sc) {
         boolean exit = false;
         do {
             try {
@@ -136,12 +136,12 @@ public class MenuEnrollment {
         if (enrollAndSudentAndCourses.isEmpty()) {
             System.err.println("Danh sách đơn đăng ký trống!");
         } else {
-            System.out.println("Danh sách đơn đăng ký : \n");
+            System.out.println("Danh sách đơn đăng ký : ");
             enrollAndSudentAndCourses.forEach(System.out::println);
         }
         do {
             System.out.println("nhập ID course muốn xóa đăng kí");
-            String input = sc.nextLine();
+            String input = sc.nextLine().trim();
             if (input.trim().isEmpty()) {
                 System.err.println("Nhập ID không được để trống");
             } else {
@@ -150,12 +150,13 @@ public class MenuEnrollment {
                     break;
                 } else {
                     System.err.println("Nhập ID là số nguyên dương");
+                    sc.nextLine();
                 }
             }
         } while (true);
         do {
             System.out.println("nhập ID Sinh Viên muốn xóa đăng kí");
-            String input = sc.nextLine();
+            String input = sc.nextLine().trim();
             if (input.trim().isEmpty()) {
                 System.err.println("Nhập ID không được để trống");
             } else {
@@ -164,10 +165,11 @@ public class MenuEnrollment {
                     break;
                 } else {
                     System.err.println("Nhập ID là số nguyên dương");
+                    sc.nextLine();
                 }
             }
         } while (true);
-        boolean result = studentBusinessImp.deleteEnrolment(idStudent, idCourse);
+        boolean result = studentBusinessImp.deleteEnrolment(idCourse, idStudent);
         if (result) {
             System.out.println("bạn đã xóa thành công!");
         } else {

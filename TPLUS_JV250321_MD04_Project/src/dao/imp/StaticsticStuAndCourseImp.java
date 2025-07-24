@@ -49,8 +49,8 @@ public class StaticsticStuAndCourseImp implements StaticsticStudentAndCourseDao 
                 StatisticStudentByCourse statisticStudentByCourse = new StatisticStudentByCourse();
                 statisticStudentByCourse.setCourseId(resultSet.getInt("id"));
                 statisticStudentByCourse.setCourseName(resultSet.getString("name"));
-                statisticStudentByCourse.setStudentTotal(resultSet.getInt("student_total"));
-               statisticStudentByCourses.add(statisticStudentByCourse);
+                statisticStudentByCourse.setStudentTotal(resultSet.getInt("total_student"));
+                statisticStudentByCourses.add(statisticStudentByCourse);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,10 +74,34 @@ public class StaticsticStuAndCourseImp implements StaticsticStudentAndCourseDao 
                 StatisticStudentByCourse statisticStudentByCourse1 = new StatisticStudentByCourse();
                 statisticStudentByCourse1.setCourseId(rs.getInt("id"));
                 statisticStudentByCourse1.setCourseName(rs.getString("name"));
-                statisticStudentByCourse1.setStudentTotal(rs.getInt("student_total"));
+                statisticStudentByCourse1.setStudentTotal(rs.getInt("total_student"));
                 statisticStudentByCourse.add(statisticStudentByCourse1);
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
+        }
+        return statisticStudentByCourse;
+    }
+
+    @Override
+    public List<StatisticStudentByCourse> upTenCourse() {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        ResultSet resultSet = null;
+        List<StatisticStudentByCourse> statisticStudentByCourse = new ArrayList<>();
+        try {conn=ConnectionDB.openConnection();
+            callSt=conn.prepareCall("{call trainingManagement.up_ten_course()}");
+           resultSet = callSt.executeQuery();
+           while (resultSet.next()) {
+               StatisticStudentByCourse statisticStudentByCourse1 = new StatisticStudentByCourse();
+               statisticStudentByCourse1.setCourseId(resultSet.getInt("id"));
+               statisticStudentByCourse1.setCourseName(resultSet.getString("name"));
+               statisticStudentByCourse1.setStudentTotal(resultSet.getInt("total_student"));
+               statisticStudentByCourse.add(statisticStudentByCourse1);
+           }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

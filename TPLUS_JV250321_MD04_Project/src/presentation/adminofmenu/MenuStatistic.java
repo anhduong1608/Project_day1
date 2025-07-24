@@ -33,7 +33,7 @@ public class MenuStatistic {
                         break;
                     case 3:limitFive(sc);
                         break;
-                    case 4:
+                    case 4:upTen(sc);
                         break;
                     case 5:
                         exit = true;
@@ -74,6 +74,15 @@ public class MenuStatistic {
         } else {
             System.out.println("năm khóa học hiện nhiều học viên học nhất : ");
             statisticStudentByCourses1.forEach(System.out::println);
+        }
+    }
+    void upTen(Scanner sc) {
+        List<StatisticStudentByCourse> statisticStudentByCourses = staticsticStuAndCouBusinessImp.upTenCourse1();
+        if (statisticStudentByCourses.isEmpty()) {
+            System.err.println("Danh sách rỗng!");
+        }else {
+            System.out.println("Danh sách có các khóa có học sinh hơn 10 là : ");
+            statisticStudentByCourses.forEach(System.out::println);
         }
     }
 }

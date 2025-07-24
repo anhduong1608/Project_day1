@@ -20,4 +20,5 @@ public interface StudentDao {
     List<Course> getCourseByStudentId(int id);
     boolean deleteEnrollmentByStudent(int courseId, int studentId);
     boolean updatePassStudent(Student student);
+    Student getStudentfromEmail(String email);
 }

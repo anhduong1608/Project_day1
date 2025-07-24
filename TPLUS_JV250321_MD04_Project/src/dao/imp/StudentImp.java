@@ -312,9 +312,12 @@ public class StudentImp implements StudentDao {
             callSt = conn.prepareCall("{CALL trainingManagement.delete_enrollment(?,?)}");
             callSt.setInt(1, courseId);
             callSt.setInt(2, studentId);
-            callSt.execute();
-            int result = callSt.getUpdateCount();
-            return result > 0;
+            int result = callSt.executeUpdate();
+            if (result > 0) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (SQLException e) {
             System.err.println("SQL Error: " + e.getMessage());
         } finally {
@@ -342,5 +345,35 @@ public class StudentImp implements StudentDao {
             ConnectionDB.closeConnection(callSt, conn);
         }
         return false;
+    }
+
+    @Override
+    public Student getStudentfromEmail(String email) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        ResultSet rs = null;
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call trainingManagement.student_by_email(?)}");
+            callSt.setString(1, email);
+            rs = callSt.executeQuery();
+            if (rs.next()) {
+                Student student = new Student();
+                student.setId(rs.getInt("id"));
+                student.setName(rs.getString("name"));
+                student.setDob(rs.getDate("dob").toLocalDate());
+                student.setEmail(rs.getString("email"));
+                student.setPhone(rs.getString("phone"));
+                student.setPassword(rs.getString("password"));
+                student.setCreateAt(rs.getDate("create_at").toLocalDate());
+                return student;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
+        }
+        return null;
     }
 }
