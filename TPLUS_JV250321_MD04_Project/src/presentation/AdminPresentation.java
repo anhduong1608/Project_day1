@@ -74,7 +74,7 @@ public class AdminPresentation {
                     System.out.println("3. Quản lý đăng ký học");
                     System.out.println("4. Thống kê học viên theo khóa");
                     System.out.println("5. Thoát");
-                    System.out.printf("Lựa chọn của bạn là:");
+                    System.out.print("Lựa chọn của bạn là: ");
                     int choice = Integer.parseInt(scanner.nextLine());
                     switch (choice) {
                         case 1:
@@ -107,4 +107,5 @@ public class AdminPresentation {
             System.err.println("đăng nhập thất bại vui lòng kiểm tra đường truyền hoặc mật khẩu và username !");
         }
     }
+
 }

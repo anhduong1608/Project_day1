@@ -129,7 +129,7 @@ public class Student {
     public String toString() {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return String.format(
-                "ID: %d | Name: %s | Email: %s | Sex: %s | Phone: %s | Created At: %s",
+                " %-5d | %-25s | %-20s | %-5s | %-20s | %-15s",
                 id,
                 name,
                 email,

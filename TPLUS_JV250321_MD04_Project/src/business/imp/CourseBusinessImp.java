@@ -3,6 +3,7 @@ package business.imp;
 import business.CourseBusinessDao;
 import dao.imp.CourseImp;
 import entity.Course;
+import entity.CourseEnrollment;
 
 import java.util.List;
 
@@ -51,5 +52,10 @@ public class CourseBusinessImp implements CourseBusinessDao {
     @Override
     public List<Course> getCourseByName(String courseName) {
         return courseImp.findCourseByName(courseName);
+    }
+
+    @Override
+    public List<CourseEnrollment> findCourseByStuId(Integer studentId) {
+        return courseImp.findCourseByStuId(studentId);
     }
 }

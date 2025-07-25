@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Course;
+import entity.CourseEnrollment;
 
 import java.util.List;
 
@@ -13,4 +14,5 @@ public interface CourseDao {
     boolean update(Course course);
     boolean delete(Integer courseId);
     List<Course> findCourseByName(String courseName);
+    List<CourseEnrollment>  findCourseByStuId(Integer idStudent);
 }

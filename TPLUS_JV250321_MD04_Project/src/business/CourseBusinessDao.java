@@ -1,6 +1,7 @@
 package business;
 
 import entity.Course;
+import entity.CourseEnrollment;
 
 import java.util.List;
 
@@ -13,5 +14,6 @@ public interface CourseBusinessDao {
     boolean updateCourse(Course course);
     boolean deleteCourse(Integer courseId);
     List<Course> getCourseByName(String courseName);
+    List<CourseEnrollment> findCourseByStuId(Integer studentId);
 
 }

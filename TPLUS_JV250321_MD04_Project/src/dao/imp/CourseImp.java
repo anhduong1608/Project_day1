@@ -2,12 +2,14 @@ package dao.imp;
 
 import dao.CourseDao;
 import entity.Course;
+import entity.CourseEnrollment;
 import utils.ConnectionDB;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -202,5 +204,35 @@ public class CourseImp implements CourseDao {
             ConnectionDB.closeConnection(callSt, conn);
         }
         return courseList;
+    }
+
+    @Override
+    public List<CourseEnrollment> findCourseByStuId(Integer idStudent) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        ResultSet rs = null;
+        List<CourseEnrollment> courseEnrollmentList = new ArrayList<>();
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call trainingManagement.course_enrollment_table(?)}");
+            callSt.setInt(1, idStudent);
+            rs = callSt.executeQuery();
+            while (rs.next()) {
+                CourseEnrollment courseEnrollment = new CourseEnrollment();
+                courseEnrollment.setId(rs.getInt("id"));
+                courseEnrollment.setName(rs.getString("name"));
+                courseEnrollment.setDuration(rs.getInt("duration"));
+                courseEnrollment.setInstructor(rs.getString("instructor"));
+                courseEnrollment.setCreateAt(rs.getDate("create_at").toLocalDate());
+                courseEnrollment.setEnrollmentAt(rs.getTimestamp("registered_at").toLocalDateTime());
+                courseEnrollment.setEnrollStatus(rs.getString("status"));
+                courseEnrollmentList.add(courseEnrollment);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
+        }
+        return courseEnrollmentList;
     }
 }

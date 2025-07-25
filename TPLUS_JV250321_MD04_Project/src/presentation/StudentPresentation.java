@@ -5,6 +5,7 @@ import business.imp.EnrollmentBusinessImp;
 import business.imp.StudentBusinessImp;
 import dao.imp.LoginDaoImp;
 import entity.Course;
+import entity.CourseEnrollment;
 import entity.Enrollment;
 import entity.Student;
 import presentation.adminofmenu.MenuManagementCourse;
@@ -86,7 +87,7 @@ public class StudentPresentation {
                     System.out.println("5. Đổi mật khẩu");
                     System.out.println("6. Đăng xuất");
                     System.out.println("mời bạn chọn :");
-                    int choice = Integer.parseInt(scanner.next());
+                    int choice = Integer.parseInt(scanner.nextLine());
                     switch (choice) {
                         case 1:
                             menuManagementCourse.displayCourse(scanner);
@@ -181,12 +182,12 @@ public class StudentPresentation {
     }
 
     void displayCourseByStudentId(Scanner scanner, Student student) {
-        List<Course> courses = studentBusinessImp.getCoursesByStudentId(student.getId());
-        if (courses.isEmpty()) {
+       List<CourseEnrollment> courseEnrollments = courseBusinessImp.findCourseByStuId(student.getId());
+        if (courseEnrollments.isEmpty()) {
             System.out.println("Hiện chưa đăng ký khóa học nào");
         } else {
             System.out.println("Các khóa học đã đăng ký : \n");
-            courses.forEach(System.out::println);
+            courseEnrollments.forEach(System.out::println);
             boolean exit = false;
             do {
                 try {
@@ -196,23 +197,23 @@ public class StudentPresentation {
                     System.out.println("4. Danh sách sắp xếp theo ngày đăng ký khóa học giảm dần");
                     System.out.println("5. thoát");
                     System.out.print("lựa chọn của bạn : ");
-                    int choice = Integer.parseInt(scanner.next());
+                    int choice = Integer.parseInt(scanner.nextLine());
                     switch (choice) {
                         case 1:
                             System.out.println("Danh sách khóa học của bạn : \n");
-                            courses.stream().sorted(Comparator.comparing(Course::getName)).forEach(System.out::println);
+                            courseEnrollments.stream().sorted(Comparator.comparing(Course::getName)).forEach(System.out::println);
                             break;
                         case 2:
                             System.out.println("Danh sách khóa học của bạn : \n");
-                            courses.stream().sorted(Comparator.comparing(Course::getName).reversed()).forEach(System.out::println);
+                            courseEnrollments.stream().sorted(Comparator.comparing(Course::getName).reversed()).forEach(System.out::println);
                             break;
                         case 3:
                             System.out.println("Danh sách khóa học của bạn : \n");
-                            courses.stream().sorted(Comparator.comparing(Course::getCreateAt)).forEach(System.out::println);
+                            courseEnrollments.stream().sorted(Comparator.comparing(CourseEnrollment::getEnrollmentAt)).forEach(System.out::println);
                             break;
                         case 4:
                             System.out.println("Danh sách khóa học của bạn : \n");
-                            courses.stream().sorted(Comparator.comparing(Course::getCreateAt).reversed()).forEach(System.out::println);
+                            courseEnrollments.stream().sorted(Comparator.comparing(CourseEnrollment::getEnrollmentAt).reversed()).forEach(System.out::println);
                             break;
                         case 5:
                             exit = true;
@@ -233,9 +234,12 @@ public class StudentPresentation {
 
     void deleteEnrollmentByStudentId(Scanner scanner, Student idStudent) {
         int idCourse;
+        List<Course> courses = studentBusinessImp.getCoursesByStudentId(idStudent.getId());
+        System.out.println("Danh sách khóa học của bạn : ");
+        courses.stream().sorted(Comparator.comparing(Course::getName)).forEach(System.out::println);
+
         do {
             System.out.println("nhập ID course muốn xóa đăng kí");
-            scanner.nextLine();
             String input = scanner.nextLine();
             if (input.trim().isEmpty()) {
                 System.err.println("Nhập ID không được để trống");
@@ -252,8 +256,9 @@ public class StudentPresentation {
         boolean result = studentBusinessImp.deleteEnrolment(idCourse, idStudent.getId());
         if (result) {
             System.out.println("Xóa đăng ký thành công");
+        } else {
+            System.err.println("Xóa đăng ký không thành công!");
         }
-        System.err.println("Xóa đăng ký không thành công!");
     }
 
     void updatePassword(Scanner scanner, Student student) {

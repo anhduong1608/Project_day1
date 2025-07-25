@@ -22,6 +22,6 @@ public class EnrollAndSudentAndCourse extends Enrollment {
 
     @Override
     public String toString() {
-        return super.toString() + String.format(" |Course Name: %s |Student Name: %s", this.CourseName, this.StudentName);
+        return super.toString() + String.format(" | %-25s | %-25s", this.CourseName, this.StudentName);
     }
 }

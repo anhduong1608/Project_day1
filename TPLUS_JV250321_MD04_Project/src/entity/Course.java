@@ -75,7 +75,7 @@ public class Course {
         String formattedDate = createAt != null ? createAt.format(formatter) : "N/A";
 
         return String.format(
-                "ID: %d | Name: %s | Duration: %d giờ | Instructor: %s | Created At: %s",
+                " %-5d | %-25s | %-10d giờ | %-20s | %-10s",
                 id, name, duration, instructor, formattedDate
         );
     }

@@ -23,6 +23,7 @@ public class MenuManagementStudent {
         boolean exits = false;
         do {
             try {
+                System.out.println("=======================STUDENT MANAGEMENT MENU==========================");
                 System.out.println("1. Hiển thị danh sách học viên");
                 System.out.println("2. Thêm mới học viên");
                 System.out.println("3. Chỉnh sửa thông tin học viên(hiển thị menu con cho phép chỉnh sửa)");
@@ -30,6 +31,8 @@ public class MenuManagementStudent {
                 System.out.println("5. Tìm kiếm học viên theo tên, email hoặc mã id(tìm kiếm tương đối)");
                 System.out.println("6. Sắp xếp học viên (theo tên|ID - tăng dần|giảm dần) ");
                 System.out.println("7. Thoát menu");
+                System.out.println("========================================================================");
+                System.out.print("Lựa chọn của bạn là : ");
                 int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case 1:
@@ -71,7 +74,9 @@ public class MenuManagementStudent {
             System.err.println("danh sách trống");
         } else {
             System.out.println("danh sách học sinh : \n");
+            headStudent();
             students.forEach(System.out::println);
+            System.out.println("======================================================================================================");
         }
     }
 
@@ -201,18 +206,18 @@ public class MenuManagementStudent {
                     if (studentBusinessImp.isStudentId(inputID)) {
                         Student student = studentBusinessImp.getStudentById(inputID);
                         System.out.println("Đối tượng bạn muốn sửa thông tin :\n");
+                        headStudent();
                         System.out.println(student);
                         boolean exits = false;
                         do {
                             try {
                                 System.out.println("1. Cập nhật tên");
                                 System.out.println("2. Cập nhật ngày tháng năm sinh");
-                                System.out.println("3. Cập nhật ngày sinh nhật");
-                                System.out.println("4. Cập nhật email");
-                                System.out.println("5. Cập nhật giới tính");
-                                System.out.println("6. Cập nhật số điện thoại");
-                                System.out.println("7. Cập nhật mật khẩu");
-                                System.out.println("8. thoát");
+                                System.out.println("3. Cập nhật email");
+                                System.out.println("4. Cập nhật giới tính");
+                                System.out.println("5. Cập nhật số điện thoại");
+                                System.out.println("6. Cập nhật mật khẩu");
+                                System.out.println("7. thoát");
                                 System.out.print("Mời bạn lựa chọn : ");
                                 int choice = Integer.parseInt(scanner.nextLine());
                                 switch (choice) {
@@ -237,10 +242,8 @@ public class MenuManagementStudent {
                                     case 7:
                                         exits = true;
                                         break;
-                                    case 8:
-                                        break;
                                     default: {
-                                        System.err.println("Mời bạn nhập số nguyên từ 1 đến 8");
+                                        System.err.println("Mời bạn nhập số nguyên từ 1 đến 7");
                                     }
                                 }
                             } catch (Exception e) {
@@ -271,8 +274,9 @@ public class MenuManagementStudent {
     }
 
     void deleteStudent(Scanner scanner) {
-        System.out.println("Nhập ID sinh viên muốn xóa ");
+
         do {
+            System.out.println("Nhập ID sinh viên muốn xóa :");
             String inputID = scanner.nextLine();
             if (inputID.trim().isEmpty()) {
                 System.err.println("ID không được để trống !");
@@ -281,9 +285,9 @@ public class MenuManagementStudent {
                     int idStudent = Integer.parseInt(inputID);
                     if (studentBusinessImp.isStudentId(idStudent)) {
                         Student student = studentBusinessImp.getStudentById(idStudent);
-                        System.out.println("đối tượng bạn muốn xóa \n");
+                        System.out.println("đối tượng bạn muốn xóa");
+                        headStudent();
                         System.out.println(student);
-                        scanner.nextLine();
                         System.out.println("Bạn có muốn xóa không Y/N ");
                         String deleteChoice = scanner.nextLine();
                         if (deleteChoice.equalsIgnoreCase("y")) {
@@ -314,10 +318,12 @@ public class MenuManagementStudent {
         boolean exits = false;
         do {
             try {
+                System.out.println("====== SEARCH BY ======");
                 System.out.println("1. Tìm kiếm theo tên");
                 System.out.println("2. Tìm kiếm theo email");
                 System.out.println("3. Tìm kiếm theo ID");
                 System.out.println("4. thoát");
+                System.out.println("=======================");
                 System.out.print("lựa chọn của bạn :  ");
                 int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
@@ -357,6 +363,7 @@ public class MenuManagementStudent {
                     break;
                 } else {
                     System.out.println("Danh sách được tìm thấy gồm : \n");
+                    headStudent();
                     students.forEach(System.out::println);
                     break;
                 }
@@ -379,6 +386,7 @@ public class MenuManagementStudent {
                         break;
                     } else {
                         System.out.println("Sinh viên tìm thấy là : \n");
+                        headStudent();
                         System.out.println(student);
                         break;
                     }
@@ -403,6 +411,7 @@ public class MenuManagementStudent {
                     break;
                 } else {
                     System.out.println("Danh sách sinh viên tìm thấy : \n");
+                    headStudent();
                     students.forEach(System.out::println);
                     break;
                 }
@@ -453,5 +462,9 @@ public class MenuManagementStudent {
             } while (!exits);
         }
     }
-
+    public void headStudent(){
+        System.out.printf(" %-5s | %-25s | %-20s | %-5s | %-20s | %-15s \n",
+                "ID", "Name", "Email",  "Sex", "Phone" ,"Created At");
+        System.out.println("======================================================================================================");
+    }
 }

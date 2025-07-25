@@ -40,7 +40,7 @@ public class StudentImp implements StudentDao {
         CallableStatement stmt = null;
         try {
             conn = ConnectionDB.openConnection();
-            stmt = conn.prepareCall("{call trainingManagement.get_pass_by_email(?,?)}");
+            stmt = conn.prepareCall("{call trainingManagement.is_email_student(?,?)}");
             stmt.setString(1, email);
             stmt.registerOutParameter(2, java.sql.Types.INTEGER);
             stmt.execute();
@@ -120,7 +120,7 @@ public class StudentImp implements StudentDao {
         ResultSet rs = null;
         try {
             conn = ConnectionDB.openConnection();
-            callSt = conn.prepareCall("{call trainingManagement.find_student_by_id()}");
+            callSt = conn.prepareCall("{call trainingManagement.find_student_by_id(?)}");
             callSt.setInt(1, id);
             rs = callSt.executeQuery();
             if (rs.next()) {
@@ -315,8 +315,6 @@ public class StudentImp implements StudentDao {
             int result = callSt.executeUpdate();
             if (result > 0) {
                 return true;
-            } else {
-                return false;
             }
         } catch (SQLException e) {
             System.err.println("SQL Error: " + e.getMessage());

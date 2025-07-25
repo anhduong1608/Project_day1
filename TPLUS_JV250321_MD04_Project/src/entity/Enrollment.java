@@ -75,6 +75,6 @@ public class Enrollment {
     @Override
     public String toString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        return String.format("ID: %d |Student ID: %d |Course ID: %d |EnrollmentAt: %s |Status: %s", id, student_id, courseId, enrollmentAt != null ? enrollmentAt.format(dtf) : "N/A", status);
+        return String.format("%-5d | %-10d | %-10d | %-25s |%-10s", id, student_id, courseId, enrollmentAt != null ? enrollmentAt.format(dtf) : "N/A", status);
     }
 }

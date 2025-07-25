@@ -17,21 +17,27 @@ public class MenuEnrollment {
     private final EnrollmentBusinessImp enrollmentBusinessImp;
     private final CourseBusinessImp courseBusinessImp;
     private final StudentBusinessImp studentBusinessImp;
+    private final MenuManagementCourse menuManagementCourse;
+    private final MenuManagementStudent menuManagementStudent;
 
     public MenuEnrollment() {
         enrollmentBusinessImp = new EnrollmentBusinessImp();
         courseBusinessImp = new CourseBusinessImp();
         studentBusinessImp = new StudentBusinessImp();
+        menuManagementCourse = new MenuManagementCourse();
+        menuManagementStudent = new MenuManagementStudent();
     }
 
     public void displayMenuEnrollment(Scanner sc) {
         boolean exit = false;
         do {
             try {
+                System.out.println("=========MANAGEMENT ENROLLMENT===========");
                 System.out.println("1. Hiển thị học viên theo từng khóa học");
                 System.out.println("2. Duyệt đơn đăng kí của học viên");
                 System.out.println("3. Xóa học viên ra khỏi khóa học");
                 System.out.println("4. Quay lại menu chính");
+                System.out.println("=========================================");
                 System.out.print("lựa chọn của bạn : ");
                 int choice = Integer.parseInt(sc.nextLine());
                 switch (choice) {
@@ -61,6 +67,7 @@ public class MenuEnrollment {
 
     void displayStudentByCourse(Scanner sc) {
         System.out.println("Danh sách khóa học hiện có : \n");
+        menuManagementCourse.printHeader();
         List<Course> courses = courseBusinessImp.getCourses();
         courses.forEach(System.out::println);
         System.out.println("Mời nhập ID COURSE cần tìm kiếm thông tin");
@@ -78,6 +85,7 @@ public class MenuEnrollment {
                             System.err.println("Danh sách trống!");
                         } else {
                             System.out.println("Danh sách tìm được các học viên theo khóa học với ID " + courseId);
+                            menuManagementStudent.headStudent();
                             students.forEach(System.out::println);
                             break;
                         }
@@ -137,6 +145,7 @@ public class MenuEnrollment {
             System.err.println("Danh sách đơn đăng ký trống!");
         } else {
             System.out.println("Danh sách đơn đăng ký : ");
+            headEnrollment();
             enrollAndSudentAndCourses.forEach(System.out::println);
         }
         do {
@@ -176,5 +185,15 @@ public class MenuEnrollment {
             System.err.println("Xóa không thành công ID sai hoặc trạng thái không phải là WAITING");
         }
 
+    }
+    public void headEnrollment() {
+        System.out.printf(" %-5s | %-10s | %-10s | %-25s | %-10s | %-25s | %-25s \n",
+                "ID", "Student ID", "Course ID", "Enrollment At", "Status","Course Name","Student Name");
+        System.out.println("====================================================================================================================");
+    }
+    public void headEnrollment1(){
+        System.out.printf(" %-5s | %-10s | %-10s | %-25s | %-10s  \n",
+                "ID", "Student ID", "Course ID", "Enrollment At", "Status");
+        System.out.println("====================================================================================================================");
     }
 }

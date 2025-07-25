@@ -27,7 +27,8 @@ public class Validator {
 
     public static boolean isBoolean(String data) {
         try {
-            return Boolean.parseBoolean(data);
+            Boolean.parseBoolean(data);
+            return true;
         } catch (NumberFormatException e) {
             return false;
         }

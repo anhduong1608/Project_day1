@@ -20,6 +20,7 @@ public class MenuManagementCourse {
         do {
 
             try {
+                System.out.println("============== COURSE MENU ============== ");
                 System.out.println("1. Hiển thị danh sách khóa học");
                 System.out.println("2. Thêm mới khóa học");
                 System.out.println("3. Chỉnh sửa thông tin khóa học(hiển thị menu chỉnh sửa)");
@@ -27,6 +28,7 @@ public class MenuManagementCourse {
                 System.out.println("5. Tìm kiến theo tên tương đối");
                 System.out.println("6. Sắp xếp theo tên hoặc ID(tăng / Giảm)");
                 System.out.println("7. Quay lại menu chính");
+                System.out.println("===========================================");
                 System.out.print("mời bạn nhập lựa chọn : ");
                 int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
@@ -68,6 +70,7 @@ public class MenuManagementCourse {
         if (courses.isEmpty()) {
             System.err.println("hiện tại danh sách đang trống");
         } else {
+            printHeader();
             courses.forEach(System.out::println);
         }
     }
@@ -145,10 +148,12 @@ public class MenuManagementCourse {
                         boolean exits = false;
                         do {
                             try {
+                                System.out.println("=======UPDATE MENU========");
                                 System.out.println("1. Cập nhật tên khóa học : ");
                                 System.out.println("2. Cập nhật thời gian khóa học : ");
                                 System.out.println("3. Cập nhật giáo viên phụ trách : ");
                                 System.out.println("4. Quay lại menu chính : ");
+                                System.out.println("==================================");
                                 System.out.print("Lựa chọn của bạn : ");
                                 int choice = Integer.parseInt(scanner.nextLine());
                                 switch (choice) {
@@ -165,7 +170,7 @@ public class MenuManagementCourse {
                                         exits = true;
                                         break;
                                     default: {
-                                        System.err.println("Mời nhập lựa chọn 1 đến 5");
+                                        System.err.println("Mời nhập lựa chọn 1 đến 4");
                                     }
                                 }
                             } catch (Exception e) {
@@ -252,6 +257,7 @@ public class MenuManagementCourse {
                     break;
                 } else {
                     System.out.println("Danh sách bạn muốn tìm : ");
+                    printHeader();
                     for (Course course : courses) {
                         System.out.println(course);
                     }
@@ -303,4 +309,14 @@ public class MenuManagementCourse {
 
     }
 
+    public void printHeader(){
+        System.out.printf(" %-5s | %-25s | %-15s | %-20s | %-10s \n",
+                "ID", "Name", "Duration", "Instructor", "Created At");
+        System.out.println("============================================================================================");
+    }
+    public void printHeader1(){
+        System.out.printf(" %-5s | %-25s | %-15s | %-20s | %-10s |\n",
+                "ID", "Name", "Duration", "Instructor", "Created At");
+        System.out.println("============================================================================================");
+    }
 }
