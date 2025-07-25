@@ -67,7 +67,6 @@ public class AdminPresentation {
             boolean exits = false;
             do {
                 try {
-                    System.out.println("đăng nhập với tư cách quản trị viên thành công");
                     System.out.println("===========MENU ADMIN==========");
                     System.out.println("1. Quản lý khóa học");
                     System.out.println("2. Quản lý học viên");

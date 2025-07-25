@@ -1,18 +1,25 @@
 package presentation.adminofmenu;
 
 import business.imp.CourseBusinessImp;
+import dao.imp.PagingImp;
 import entity.Course;
 import validate.Validator;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
 public class MenuManagementCourse {
     private final CourseBusinessImp courseBusinessImp;
+    private final PagingImp pagingImp;
+    private final int ROW_OF_PAGE = 5;
+    private int currentPage = 1;
+
 
     public MenuManagementCourse() {
         courseBusinessImp = new CourseBusinessImp();
+        pagingImp = new PagingImp();
     }
 
     public void displayMenuManagementCourse(Scanner scanner) {
@@ -33,7 +40,8 @@ public class MenuManagementCourse {
                 int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case 1:
-                        displayCourse(scanner);
+//                        displayCourse(scanner);
+                        pagingCourseMenu(scanner);
                         break;
                     case 2:
                         saveCourse(scanner);
@@ -309,14 +317,71 @@ public class MenuManagementCourse {
 
     }
 
-    public void printHeader(){
+    public void printHeader() {
         System.out.printf(" %-5s | %-25s | %-15s | %-20s | %-10s \n",
                 "ID", "Name", "Duration", "Instructor", "Created At");
         System.out.println("============================================================================================");
     }
-    public void printHeader1(){
+
+    public void printHeader1() {
         System.out.printf(" %-5s | %-25s | %-15s | %-20s | %-10s |\n",
                 "ID", "Name", "Duration", "Instructor", "Created At");
         System.out.println("============================================================================================");
     }
+
+    void pagingCourseMenu(Scanner scanner) {
+
+        while (true) {
+            String next = "";
+            String pev = "";
+            int totalPage = pagingImp.getTotalPagesCourse(ROW_OF_PAGE);
+//            System.out.println(totalPage);
+            System.out.printf(" %-5s |%-5s | %-25s | %-15s | %-20s | %-10s \n",
+                    "NO", "ID", "Name", "Duration", "Instructor", "Created At");
+            System.out.println("============================================================================================");
+            List<Course> courses = pagingImp.PagingCourse(currentPage, ROW_OF_PAGE);
+            int stt = (currentPage - 1) * ROW_OF_PAGE + 1;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            for (Course course : courses) {
+                System.out.printf("%-5d| %-5d | %-25s | %-10d giờ | %-20s | %-10s\n", stt, course.getId(), course.getName(), course.getDuration(), course.getInstructor(), course.getCreateAt().format(formatter));
+                stt++;
+            }
+            if (currentPage < totalPage) {
+                next = "Next";
+            }
+            if (currentPage > 1) {
+                pev = "pev";
+            }
+            String page = "page" + " " + next + " ";
+            for (int i = 1; i <= totalPage; i++) {
+                if (i == currentPage) {
+                    page += "[" + i + "]" + " ";
+                } else page += i + " ";
+
+            }
+            page += pev;
+            System.out.println(page);
+            System.out.println("nhập trang muốn tới nếu muốn thoát ấn phím bất kì ngoài những phím chuyển trang");
+            String choice = scanner.nextLine();
+            if (choice.equalsIgnoreCase("p")) {
+                currentPage--;
+            } else if (choice.equalsIgnoreCase("n")) {
+                currentPage++;
+            } else {
+                try {
+                    int pageNo = Integer.parseInt(choice);
+                    if (pageNo <= totalPage && pageNo > 1) {
+                        currentPage = pageNo;
+                    }else {break;}
+
+                } catch (NumberFormatException e) {
+                    break;
+                }
+
+            }
+        }
+
+    }
+
 }
+
