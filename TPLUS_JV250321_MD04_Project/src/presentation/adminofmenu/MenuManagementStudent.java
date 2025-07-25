@@ -421,31 +421,45 @@ public class MenuManagementStudent {
     }
 
     void sortStudentMenu(Scanner scanner) {
-        List<Student> students = studentBusinessImp.getAllStudents();
+     List<Student> students = studentBusinessImp.getAllStudents();
         if (students.isEmpty()) {
             System.err.println("Danh sách hiện đang trống!");
         } else {
             boolean exits = false;
             do {
                 try {
+                    System.out.println("========== SẮP XẾP THEO THỨ tự ==========");
                     System.out.println("1. Sắp xếp theo tên tăng dần");
                     System.out.println("2. Sắp xếp theo tên giảm dần");
                     System.out.println("3. Sắp xếp theo ID tăng dần");
                     System.out.println("4. Sắp xếp theo ID giảm dần");
                     System.out.println("5. thoát");
+                    System.out.println("=========================================");
                     System.out.print("lựa chọn của bạn là : ");
                     int choice = Integer.parseInt(scanner.nextLine());
                     switch (choice) {
                         case 1:
-                            students.stream().sorted(Comparator.comparing(Student::getName)).forEach(System.out::println);
+                            headStudent();
+                            students.stream().sorted(Comparator.comparing(student -> {
+                                String[] parts = student.getName().split(" ");
+                                return parts[parts.length - 1].toLowerCase();
+                            })).forEach(System.out::println);
                             break;
                         case 2:
-                            students.stream().sorted(Comparator.comparing(Student::getName).reversed()).forEach(System.out::println);
+                            headStudent();
+                            students.stream()
+                                    .sorted(Comparator.comparing((Student student) -> {
+                                        String[] parts = student.getName().split(" ");
+                                        return parts[parts.length - 1].toLowerCase();
+                                    }, Comparator.reverseOrder()))
+                                    .forEach(System.out::println);
                             break;
                         case 3:
+                            headStudent();
                             students.stream().sorted(Comparator.comparing(Student::getId)).forEach(System.out::println);
                             break;
                         case 4:
+                            headStudent();
                             students.stream().sorted(Comparator.comparing(Student::getId).reversed()).forEach(System.out::println);
                             break;
                         case 5:
@@ -462,9 +476,10 @@ public class MenuManagementStudent {
             } while (!exits);
         }
     }
-    public void headStudent(){
+
+    public void headStudent() {
         System.out.printf(" %-5s | %-25s | %-20s | %-5s | %-20s | %-15s \n",
-                "ID", "Name", "Email",  "Sex", "Phone" ,"Created At");
+                "ID", "Name", "Email", "Sex", "Phone", "Created At");
         System.out.println("======================================================================================================");
     }
 }

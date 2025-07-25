@@ -86,6 +86,7 @@ public class StudentPresentation {
                     System.out.println("4. Hủy đăng ky(Nếu chưa bắt đầu)");
                     System.out.println("5. Đổi mật khẩu");
                     System.out.println("6. Đăng xuất");
+                    System.out.println("==================================");
                     System.out.println("mời bạn chọn :");
                     int choice = Integer.parseInt(scanner.nextLine());
                     switch (choice) {
