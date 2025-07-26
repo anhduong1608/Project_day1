@@ -31,6 +31,6 @@ public class CourseEnrollment extends Course {
     @Override
     public String toString() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        return super.toString() + String.format("|Enrollment At : %s | Status : %s|", enrollmentAt != null ? enrollmentAt.format(dtf) : "N/A", enrollStatus  );
+        return super.toString() + String.format("| %-20s | %-10s|", enrollmentAt != null ? enrollmentAt.format(dtf) : "N/A", enrollStatus  );
     }
 }

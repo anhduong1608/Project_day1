@@ -38,7 +38,7 @@ public class StudentPresentation {
         Student student = new Student();
         System.out.println("mời nhập email : ");
         do {
-            String inputEmail = scanner.next();
+            String inputEmail = scanner.nextLine();
             if (inputEmail.trim().isEmpty()) {
                 System.err.println("email không được để trống mời nhập lại!");
             } else {
@@ -54,7 +54,7 @@ public class StudentPresentation {
 //        System.out.printf("%s",studentBusinessImp.getPasswordByEmailStudent(student.getEmail()));
         System.out.println("mời nhập mật khẩu đăng nhập : ");
         do {
-            String inputPassword = scanner.next();
+            String inputPassword = scanner.nextLine();
             if (inputPassword.trim().isEmpty()) {
                 System.err.println("mật khẩu không được để trống!");
             } else {
@@ -63,10 +63,10 @@ public class StudentPresentation {
 
                 if (inputHash.equals(dbHash)) {
                     student.setPassword(inputHash);
-                    scanner.nextLine();
                     break;
                 } else {
                     System.err.println("Mật khẩu hoặc email không đúng. Vui lòng nhập lại.");
+                    break;
                 }
             }
 
@@ -120,7 +120,7 @@ public class StudentPresentation {
             } while (!exits);
 
         } else {
-            System.err.println("Đăng nhập thất bại! xin hay đăng nhập lại!");
+            System.err.println("Đăng nhập thất bại!");
         }
 
     }
@@ -130,7 +130,6 @@ public class StudentPresentation {
         Enrollment enrollment = new Enrollment();
         List<Course> enrollmentCourseList = studentBusinessImp.getCoursesByStudentId(student.getId());
         System.out.println("Danh sách khóa học : ");
-        scanner.nextLine();
         List<Course> courses = courseBusinessImp.getCourses();
         courses.forEach(System.out::println);
         do {
@@ -159,6 +158,7 @@ public class StudentPresentation {
                                 enrollment.setCourseId(id);
                                 break;
                             } else {
+                                System.out.println("hủy đăng ký");
                                 return;
                             }
                         }
@@ -183,11 +183,14 @@ public class StudentPresentation {
     }
 
     void displayCourseByStudentId(Scanner scanner, Student student) {
-       List<CourseEnrollment> courseEnrollments = courseBusinessImp.findCourseByStuId(student.getId());
+        List<CourseEnrollment> courseEnrollments = courseBusinessImp.findCourseByStuId(student.getId());
         if (courseEnrollments.isEmpty()) {
             System.out.println("Hiện chưa đăng ký khóa học nào");
         } else {
             System.out.println("Các khóa học đã đăng ký : \n");
+            System.out.printf(" %-5s | %-25s | %-15s | %-20s | %-10s|%-20s|%-10s \n",
+                    "ID", "Name", "Duration", "Instructor", "Created At","Enrollment At","Status");
+            System.out.println("==========================================================================================================================");
             courseEnrollments.forEach(System.out::println);
             boolean exit = false;
             do {

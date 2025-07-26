@@ -24,7 +24,7 @@ public class Main {
         do {
             try {
                 System.out.println("1. Đăng nhập với tư cách quản trị viên.");
-                System.out.println("2. Đăng nhập với tư cách quản học viên.");
+                System.out.println("2. Đăng nhập với tư cách học viên.");
                 System.out.println("3. Thoát.");
                 System.out.printf("xin moi lua chon : ");
                 int choice = Integer.parseInt(sc.nextLine());

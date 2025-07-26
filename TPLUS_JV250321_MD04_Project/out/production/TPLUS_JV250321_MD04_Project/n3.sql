@@ -448,3 +448,21 @@ delimiter &&
 set @total = 0;
 call total_page_course(5,@total);
 select @total as total_page
+
+    delimiter &&
+create procedure total_page_student(rowOfPage int, out totalPage int)
+begin
+    declare totalRow int;
+select count(*) into totalRow from student;
+set totalPage = CEIL(totalRow / rowOfPage);
+end &&
+delimiter &&
+
+delimiter &&
+create procedure paging_student(page int, rowOfPage int)
+begin
+    declare setOff int;
+    set setOff = page - 1 * rowOfPage;
+select * from student limit 5 offset setOff;
+end &&
+delimiter &&

@@ -103,7 +103,7 @@ public class AdminPresentation {
 
 
         } else {
-            System.err.println("đăng nhập thất bại vui lòng kiểm tra đường truyền hoặc mật khẩu và username !");
+            System.err.println("đăng nhập thất bại vui lòng kiểm tra mật khẩu và username !");
         }
     }
 
