@@ -301,3 +301,150 @@ VALUES
     (1, 2, '2025-07-24 09:00:00', 'CONFIRM'),
     (1, 3, '2025-07-23 14:00:00', 'CANCER'),
     (2, 1, '2025-07-22 10:00:00', 'DENIED');
+INSERT INTO enrollment (student_id, course_id, status)
+VALUES (1, 1, 'WAITING'),
+       (1, 2, 'CONFIRM'),
+       (1, 3,  'CANCER'),
+       (2, 1,  'WAITING');
+
+
+
+
+delimiter &&
+create procedure save_enrollment(nStudentId int,
+                                 nCourseId int)
+begin
+insert into enrollment (student_id, course_id) VALUES (nStudentId, nCourseId);
+end &&
+delimiter &&
+call delete_enrollment (1,2);
+delimiter &&
+create procedure find_course_enrollment(sStudentId int)
+begin
+select c.id, c.name, c.duration, c.instructor, c.create_at
+from course as c
+         join enrollment e on c.id = e.course_id
+where e.student_id = sStudentId;
+end &&
+delimiter &&
+
+delimiter &&
+create procedure delete_enrollment(sIdStudent int, sCourseId int)
+begin
+    if exists(select 1 from enrollment where course_id = sCourseId) then
+delete from enrollment where student_id = sIdStudent and course_id = sCourseId and status = 'WAITING';
+else
+        SIGNAL SQLSTATE '45000' set message_text =
+                'ID COURSE không đúng hoặc trạng thái không phù hợp mời bạn kiểm tra lại!';
+end if;
+end &&
+delimiter &&
+
+delimiter &&
+create procedure update_pass_student(uId int, nPass varchar(255))
+begin
+update student set password = nPass where id = uId;
+end &&
+delimiter &&
+
+delimiter &&
+create procedure find_student_by_course(sId int)
+begin
+select *
+from student as s
+         join enrollment e on s.id = e.student_id
+where course_id = sId;
+end &&
+delimiter &&
+
+delimiter &&
+create procedure admin_appect_enrollment(eId int)
+begin
+update enrollment set status = 'CONFIRM' where id = eId;
+end &&
+delimiter &&
+
+drop procedure admin_appect_enrollment;
+
+delimiter &&
+create procedure find_all_enrollment()
+begin
+select * from enrollment;
+end &&
+delimiter &&
+
+delimiter &&
+create procedure total_course_and_student()
+select count(s.id) as total_student, count(c.id) as total_course
+from enrollment as e
+         join course c on c.id = e.course_id
+         join student s on s.id = e.student_id;
+delimiter &&
+
+delimiter &&
+create procedure total_student_by_course()
+begin
+select c.id, c.name, count(e.student_id) as total_student
+from enrollment as e
+         join course c on c.id = e.course_id
+group by c.id, c.name;
+end &&
+delimiter &&
+
+call limit_five_course();
+
+delimiter &&
+create procedure limit_five_course()
+select c.id, c.name, count(e.student_id) as total_student
+from enrollment as e
+         join course c on c.id = e.course_id
+group by c.id, c.name
+order by total_student desc
+    limit 5;
+delimiter &&
+
+delimiter &&
+create procedure student_by_email(sEmail varchar(100))
+select * from student where email = sEmail;
+delimiter &&
+
+delimiter &&
+create procedure up_ten_course()
+begin
+select c.id, c.name, count(e.student_id) as total_student from course as c
+                                                                   join enrollment e on c.id = e.course_id
+group by c.id, c.name
+having total_student > 10;
+end &&
+delimiter &&
+
+delimiter &&
+create procedure course_enrollment_table(sIdStudent int)
+begin
+select c.id,c.name, c.duration, c.instructor,e.registered_at
+from course as c
+         join enrollment e on c.id = e.course_id
+where e.student_id = sIdStudent;
+end;
+delimiter &&
+
+delimiter &&
+create procedure total_page_course(rowOfPage int,out totalPage int)
+begin
+    declare totalrow int;
+select count(*) into  totalrow from course;
+set totalPage = CEIL(totalrow/rowOfPage);
+end &&
+delimiter &&
+
+delimiter &&
+create procedure paging_course(page int,rowOfpage int)
+begin
+    declare off int;
+    set off = (page - 1) * rowOfpage;
+select * from course limit rowOfpage offset off;
+end &&
+delimiter &&
+set @total = 0;
+call total_page_course(5,@total);
+select @total as total_page
