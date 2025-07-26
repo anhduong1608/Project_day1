@@ -40,6 +40,6 @@ public class StatisticStudentByCourse {
 
     @Override
     public String toString() {
-        return String.format("Course ID : %d| Course Name : %s| Student Total : %d", courseId, courseName, studentTotal);
+        return String.format("Course ID : %-5d| Course Name : %-25s| Student Total : %-5d", courseId, courseName, studentTotal);
     }
 }

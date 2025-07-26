@@ -35,5 +35,10 @@ public class EnrollmentBusinessImp implements EnrollmentBusinessDao {
         return enrollmentImp.findAllEnrollment();
     }
 
+    @Override
+    public List<EnrollAndSudentAndCourse> findEnrollDelete() {
+        return enrollmentImp.findEnrollDelete();
+    }
+
 
 }

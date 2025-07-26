@@ -211,7 +211,7 @@ public class MenuManagementCourse {
     }
 
     void deleteCourse(Scanner scanner) {
-
+            pagingCourseMenu(scanner);
         do {
             System.out.println("Nhập ID khóa học muốn xóa : ");
             String input = scanner.nextLine();

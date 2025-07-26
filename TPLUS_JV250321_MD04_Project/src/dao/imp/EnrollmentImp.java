@@ -117,4 +117,33 @@ public class EnrollmentImp implements EnrollmentDao {
         }
         return enrollments;
     }
+
+    @Override
+    public List<EnrollAndSudentAndCourse> findEnrollDelete() {
+        Connection conn = null;
+        CallableStatement stmt = null;
+        ResultSet rs = null;
+        List<EnrollAndSudentAndCourse> enrollments = new ArrayList<>();
+        try {
+            conn = ConnectionDB.openConnection();
+            stmt = conn.prepareCall("{call trainingManagement.find_enroll_delete_update()}");
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                EnrollAndSudentAndCourse enrollment = new EnrollAndSudentAndCourse();
+                enrollment.setId(rs.getInt("id"));
+                enrollment.setStudent_id(rs.getInt("student_id"));
+                enrollment.setCourseId(rs.getInt("course_id"));
+                enrollment.setEnrollmentAt(rs.getTimestamp("registered_at").toLocalDateTime());
+                enrollment.setStatus(rs.getString("status"));
+                enrollment.setCourseName(rs.getString("course_name"));
+                enrollment.setStudentName(rs.getString("student_name"));
+                enrollments.add(enrollment);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(stmt, conn);
+        }
+        return enrollments;
+    }
 }

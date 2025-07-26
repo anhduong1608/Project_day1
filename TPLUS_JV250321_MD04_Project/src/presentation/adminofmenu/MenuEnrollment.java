@@ -106,11 +106,13 @@ public class MenuEnrollment {
     }
 
     void addEnrollment(Scanner sc) {
+
         List<EnrollAndSudentAndCourse> enrollAndSudentAndCourses = enrollmentBusinessImp.findAllEnrollments();
         if (enrollAndSudentAndCourses.isEmpty()) {
             System.err.println("Danh sách đơn đăng ký trống!");
         } else {
             System.out.println("Danh sách đơn đăng ký : \n");
+            headEnrollment();
             enrollAndSudentAndCourses.forEach(System.out::println);
         }
         do {
@@ -140,7 +142,7 @@ public class MenuEnrollment {
     void deleteEnrollment(Scanner sc) {
         int idStudent;
         int idCourse;
-        List<EnrollAndSudentAndCourse> enrollAndSudentAndCourses = enrollmentBusinessImp.findAllEnrollments();
+        List<EnrollAndSudentAndCourse> enrollAndSudentAndCourses = enrollmentBusinessImp.findEnrollDelete();
         if (enrollAndSudentAndCourses.isEmpty()) {
             System.err.println("Danh sách đơn đăng ký trống!");
         } else {
@@ -186,12 +188,14 @@ public class MenuEnrollment {
         }
 
     }
+
     public void headEnrollment() {
         System.out.printf(" %-5s | %-10s | %-10s | %-25s | %-10s | %-25s | %-25s \n",
-                "ID", "Student ID", "Course ID", "Enrollment At", "Status","Course Name","Student Name");
+                "ID", "Student ID", "Course ID", "Enrollment At", "Status", "Course Name", "Student Name");
         System.out.println("====================================================================================================================");
     }
-    public void headEnrollment1(){
+
+    public void headEnrollment1() {
         System.out.printf(" %-5s | %-10s | %-10s | %-25s | %-10s  \n",
                 "ID", "Student ID", "Course ID", "Enrollment At", "Status");
         System.out.println("====================================================================================================================");

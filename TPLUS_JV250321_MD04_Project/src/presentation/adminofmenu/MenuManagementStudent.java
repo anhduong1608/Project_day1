@@ -203,7 +203,7 @@ public class MenuManagementStudent {
     }
 
     void updateStudentMenu(Scanner scanner) {
-
+        pagingStudentMenu(scanner);
         do {
             System.out.println("Nhập ID sinh viên muốn cập nhật chỉnh sửa thông tin :");
             String id = scanner.nextLine();
@@ -487,14 +487,14 @@ public class MenuManagementStudent {
     }
 
     public void headStudent() {
-        System.out.printf(" %-5s | %-25s | %-20s | %-5s | %-20s | %-15s \n",
-                "ID", "Name", "Email", "Sex", "Phone", "Created At");
+        System.out.printf(" %-5s | %-25s | %-18s | %-20s | %-5s | %-20s | %-15s \n",
+                "ID", "Name", "dob", "Email", "Sex", "Phone", "Created At");
         System.out.println("=====================================================================================================================");
     }
 
     public void pagingStudentMenu(Scanner scanner) {
         int totalPage = studentImp.studentOfTotalPage(ROW_OF_PAGE);
-        List<Student> students = studentImp.pagingStudent(page, ROW_OF_PAGE);
+
         while (true) {
             String next = "";
             String pev = "";
@@ -503,6 +503,7 @@ public class MenuManagementStudent {
                     "NO", "ID", "Name", "DOB", "Email", "Sex", "Phone", "Created At");
             System.out.println("====================================================================================================================");
             int stt = (page - 1) * ROW_OF_PAGE + 1;
+            List<Student> students = studentImp.pagingStudent(page, ROW_OF_PAGE);
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             for (Student student : students) {
                 System.out.printf(" %-5d |%-5d | %-25s |%-20s| %-20s | %-5s | %-20s | %-15s\n", stt, student.getId(), student.getName(), student.getDob().format(dtf), student.getEmail(), student.isSex() ? "Nam" : "Nữ", student.getPhone(), student.getCreateAt().format(dtf));
@@ -521,8 +522,9 @@ public class MenuManagementStudent {
                 } else {
                     pagefooter += i + " ";
                 }
-                pagefooter += pev;
+
             }
+            pagefooter += pev;
             System.out.println(pagefooter);
             System.out.println("Mời bạn nhập trang cần chọn hoặc N or P ngoài ra phím bất kì sẽ trở về menu trước :");
             String input = scanner.nextLine();

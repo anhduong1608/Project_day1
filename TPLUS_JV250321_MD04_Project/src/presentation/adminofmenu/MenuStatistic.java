@@ -31,9 +31,11 @@ public class MenuStatistic {
                     case 2:
                         statisticStudentByCourse(sc);
                         break;
-                    case 3:limitFive(sc);
+                    case 3:
+                        limitFive(sc);
                         break;
-                    case 4:upTen(sc);
+                    case 4:
+                        upTen(sc);
                         break;
                     case 5:
                         exit = true;
@@ -54,7 +56,10 @@ public class MenuStatistic {
         StatisticStudentAndCourse statisticStudentAndCourse = staticsticStuAndCouBusinessImp.getStatisticStudentAndCourse();
         if (statisticStudentAndCourse == null) {
             System.err.println("giữ liệu trống");
-        } else System.out.println(statisticStudentAndCourse);
+        } else
+            System.out.println("====================================================");
+        System.out.println(statisticStudentAndCourse);
+        System.out.println("====================================================");
     }
 
     void statisticStudentByCourse(Scanner sc) {
@@ -63,6 +68,7 @@ public class MenuStatistic {
             System.err.println("giữ liệu trống");
         } else {
             System.out.println("Danh sách thống kê theo khóa học : ");
+            System.out.println("=========================================================================");
             statisticStudentByCourses.forEach(System.out::println);
         }
     }
@@ -73,15 +79,18 @@ public class MenuStatistic {
             System.err.println("Danh sách hiện không có đối tượng nào");
         } else {
             System.out.println("năm khóa học hiện nhiều học viên học nhất : ");
+            System.out.println("=========================================================================");
             statisticStudentByCourses1.forEach(System.out::println);
         }
     }
+
     void upTen(Scanner sc) {
         List<StatisticStudentByCourse> statisticStudentByCourses = staticsticStuAndCouBusinessImp.upTenCourse1();
         if (statisticStudentByCourses.isEmpty()) {
             System.err.println("Danh sách rỗng!");
-        }else {
+        } else {
             System.out.println("Danh sách có các khóa có học sinh hơn 10 là : ");
+            System.out.println("=========================================================================");
             statisticStudentByCourses.forEach(System.out::println);
         }
     }

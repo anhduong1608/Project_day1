@@ -130,6 +130,7 @@ public class StudentPresentation {
         Enrollment enrollment = new Enrollment();
         List<Course> enrollmentCourseList = studentBusinessImp.getCoursesByStudentId(student.getId());
         System.out.println("Danh sách khóa học : ");
+        menuManagementCourse.printHeader();
         List<Course> courses = courseBusinessImp.getCourses();
         courses.forEach(System.out::println);
         do {
@@ -205,18 +206,30 @@ public class StudentPresentation {
                     switch (choice) {
                         case 1:
                             System.out.println("Danh sách khóa học của bạn : \n");
+                            System.out.printf(" %-5s | %-25s | %-15s | %-20s | %-10s|%-20s|%-10s \n",
+                                    "ID", "Name", "Duration", "Instructor", "Created At","Enrollment At","Status");
+                            System.out.println("==========================================================================================================================");
                             courseEnrollments.stream().sorted(Comparator.comparing(Course::getName)).forEach(System.out::println);
                             break;
                         case 2:
                             System.out.println("Danh sách khóa học của bạn : \n");
+                            System.out.printf(" %-5s | %-25s | %-15s | %-20s | %-10s|%-20s|%-10s \n",
+                                    "ID", "Name", "Duration", "Instructor", "Created At","Enrollment At","Status");
+                            System.out.println("==========================================================================================================================");
                             courseEnrollments.stream().sorted(Comparator.comparing(Course::getName).reversed()).forEach(System.out::println);
                             break;
                         case 3:
                             System.out.println("Danh sách khóa học của bạn : \n");
+                            System.out.printf(" %-5s | %-25s | %-15s | %-20s | %-10s|%-20s|%-10s \n",
+                                    "ID", "Name", "Duration", "Instructor", "Created At","Enrollment At","Status");
+                            System.out.println("==========================================================================================================================");
                             courseEnrollments.stream().sorted(Comparator.comparing(CourseEnrollment::getEnrollmentAt)).forEach(System.out::println);
                             break;
                         case 4:
                             System.out.println("Danh sách khóa học của bạn : \n");
+                            System.out.printf(" %-5s | %-25s | %-15s | %-20s | %-10s|%-20s|%-10s \n",
+                                    "ID", "Name", "Duration", "Instructor", "Created At","Enrollment At","Status");
+                            System.out.println("==========================================================================================================================");
                             courseEnrollments.stream().sorted(Comparator.comparing(CourseEnrollment::getEnrollmentAt).reversed()).forEach(System.out::println);
                             break;
                         case 5:

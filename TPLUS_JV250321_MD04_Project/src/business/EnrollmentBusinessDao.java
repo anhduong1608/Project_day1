@@ -11,4 +11,5 @@ public interface EnrollmentBusinessDao {
     List<Student> findStudentByCourse(int courseId);
     boolean appectEnrollment(int enrollmentId);
     List<EnrollAndSudentAndCourse> findAllEnrollments();
+    List<EnrollAndSudentAndCourse> findEnrollDelete();
 }
