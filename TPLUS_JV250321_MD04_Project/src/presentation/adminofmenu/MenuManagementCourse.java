@@ -361,7 +361,7 @@ public class MenuManagementCourse {
             }
             page += pev;
             System.out.println(page);
-            System.out.println("nhập trang muốn tới nếu muốn thoát ấn phím bất kì ngoài những phím chuyển trang");
+            System.out.println("nhập trang muốn tới hoăc n or p(nếu muốn thoát ấn phím bất kì ngoài những phím chuyển trang)");
             String choice = scanner.nextLine();
             if (choice.equalsIgnoreCase("p")) {
                 currentPage--;
@@ -370,7 +370,7 @@ public class MenuManagementCourse {
             } else {
                 try {
                     int pageNo = Integer.parseInt(choice);
-                    if (pageNo <= totalPage && pageNo > 1) {
+                    if (pageNo <= totalPage && pageNo >= 1) {
                         currentPage = pageNo;
                     }else {break;}
 

@@ -21,4 +21,6 @@ public interface StudentDao {
     boolean deleteEnrollmentByStudent(int courseId, int studentId);
     boolean updatePassStudent(Student student);
     Student getStudentfromEmail(String email);
+    int studentOfTotalPage(int rowOfPage);
+    List<Student> pagingStudent(int page, int rowOfPage);
 }

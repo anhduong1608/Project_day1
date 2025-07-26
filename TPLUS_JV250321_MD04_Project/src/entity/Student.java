@@ -34,6 +34,15 @@ public class Student {
         this.createAt = LocalDate.now();
     }
 
+    public Student(int id, String name, LocalDate dob, String email, boolean sex, String phone, LocalDate createAt) {
+        this.id = id;
+        this.name = name;
+        this.dob = dob;
+        this.email = email;
+        this.sex = sex;
+        this.phone = phone;
+        this.createAt = createAt;
+    }
 
     public Student(String name, LocalDate dob, String email, boolean sex, String phone, String password) {
         this.name = name;
@@ -128,10 +137,11 @@ public class Student {
     @Override
     public String toString() {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return String.format(
-                " %-5d | %-25s | %-20s | %-5s | %-20s | %-15s",
+            return String.format(
+                    " %-5d | %-25s |%-20s| %-20s | %-5s | %-20s | %-15s",
                 id,
                 name,
+                dob.format(df),
                 email,
                 sex ? "Nam" : "Nữ",
                 phone != null ? phone : "N/A",

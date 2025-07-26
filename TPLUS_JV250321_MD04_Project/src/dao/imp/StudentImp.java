@@ -374,4 +374,55 @@ public class StudentImp implements StudentDao {
         }
         return null;
     }
+
+    @Override
+    public int studentOfTotalPage(int rowOfPage) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call trainingManagement.total_page_student(?,?)}");
+            callSt.setInt(1, rowOfPage);
+            callSt.registerOutParameter(2, java.sql.Types.INTEGER);
+            callSt.execute();
+            int total = callSt.getInt(2);
+            return total;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
+        }
+        return 0;
+    }
+
+    @Override
+    public List<Student> pagingStudent(int page, int rowOfPage) {
+        Connection conn = null;
+        CallableStatement callSt = null;
+        ResultSet rs = null;
+        List<Student> students = new ArrayList<>();
+        try {
+            conn = ConnectionDB.openConnection();
+            callSt = conn.prepareCall("{call trainingManagement.paging_student(?,?)}");
+            callSt.setInt(1, page);
+            callSt.setInt(2, rowOfPage);
+            rs = callSt.executeQuery();
+            while (rs.next()) {
+                Student student = new Student();
+                student.setId(rs.getInt("id"));
+                student.setName(rs.getString("name"));
+                student.setDob(rs.getDate("dob").toLocalDate());
+                student.setEmail(rs.getString("email"));
+                student.setSex(rs.getBoolean("sex"));
+                student.setPhone(rs.getString("phone"));
+                student.setPassword(rs.getString("password"));
+                students.add(student);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(callSt, conn);
+        }
+        return students;
+    }
 }

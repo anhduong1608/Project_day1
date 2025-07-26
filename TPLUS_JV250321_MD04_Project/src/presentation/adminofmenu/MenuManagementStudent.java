@@ -1,6 +1,7 @@
 package presentation.adminofmenu;
 
 import business.imp.StudentBusinessImp;
+import dao.imp.StudentImp;
 import entity.Student;
 import validate.PasswordUtil;
 import validate.Validator;
@@ -14,9 +15,16 @@ import java.util.Scanner;
 
 public class MenuManagementStudent {
     private final StudentBusinessImp studentBusinessImp;
+    private final StudentImp studentImp;
+    private int page = 1;
+    private final int ROW_OF_PAGE = 5;
+
 
     public MenuManagementStudent() {
         studentBusinessImp = new StudentBusinessImp();
+        studentImp = new StudentImp();
+
+
     }
 
     public void displayMenuManagementStudent(Scanner scanner) {
@@ -36,7 +44,8 @@ public class MenuManagementStudent {
                 int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case 1:
-                        displayStudent(scanner);
+//                        displayStudent(scanner);
+                        pagingStudentMenu(scanner);
                         break;
                     case 2:
                         creatStudent(scanner);
@@ -421,7 +430,7 @@ public class MenuManagementStudent {
     }
 
     void sortStudentMenu(Scanner scanner) {
-     List<Student> students = studentBusinessImp.getAllStudents();
+        List<Student> students = studentBusinessImp.getAllStudents();
         if (students.isEmpty()) {
             System.err.println("Danh sách hiện đang trống!");
         } else {
@@ -480,6 +489,60 @@ public class MenuManagementStudent {
     public void headStudent() {
         System.out.printf(" %-5s | %-25s | %-20s | %-5s | %-20s | %-15s \n",
                 "ID", "Name", "Email", "Sex", "Phone", "Created At");
-        System.out.println("======================================================================================================");
+        System.out.println("=====================================================================================================================");
+    }
+
+    public void pagingStudentMenu(Scanner scanner) {
+        int totalPage = studentImp.studentOfTotalPage(ROW_OF_PAGE);
+        List<Student> students = studentImp.pagingStudent(page, ROW_OF_PAGE);
+        while (true) {
+            String next = "";
+            String pev = "";
+            System.out.println("============ Danh sách sinh viên ============ ");
+            System.out.printf("%-5s | %-5s | %-25s | %-20s | %-20s | %-5s | %-20s | %-15s \n",
+                    "NO", "ID", "Name", "DOB", "Email", "Sex", "Phone", "Created At");
+            System.out.println("====================================================================================================================");
+            int stt = (page - 1) * ROW_OF_PAGE + 1;
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            for (Student student : students) {
+                System.out.printf(" %-5d |%-5d | %-25s |%-20s| %-20s | %-5s | %-20s | %-15s\n", stt, student.getId(), student.getName(), student.getDob().format(dtf), student.getEmail(), student.isSex() ? "Nam" : "Nữ", student.getPhone(), student.getCreateAt().format(dtf));
+                stt++;
+            }
+            if (page > 1) {
+                pev = "[P]pev";
+            }
+            if (page < totalPage) {
+                next = "[N]next";
+            }
+            String pagefooter = "Page : " + " " + next + " ";
+            for (int i = 1; i <= totalPage; i++) {
+                if (page == i) {
+                    pagefooter += "[" + i + "]" + " ";
+                } else {
+                    pagefooter += i + " ";
+                }
+                pagefooter += pev;
+            }
+            System.out.println(pagefooter);
+            System.out.println("Mời bạn nhập trang cần chọn hoặc N or P ngoài ra phím bất kì sẽ trở về menu trước :");
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("n")) {
+                page++;
+            } else if (input.equalsIgnoreCase("p")) {
+                page--;
+            } else {
+                try {
+                    int choice = Integer.parseInt(input);
+                    if (choice >= 1 && choice <= totalPage) {
+                        page = choice;
+                    }
+                } catch (Exception e) {
+                    break;
+                }
+            }
+        }
+
+
     }
 }
+
