@@ -220,6 +220,7 @@ public class MenuManagementStudent {
                         boolean exits = false;
                         do {
                             try {
+                                System.out.println("============MENU============");
                                 System.out.println("1. Cập nhật tên");
                                 System.out.println("2. Cập nhật ngày tháng năm sinh");
                                 System.out.println("3. Cập nhật email");
@@ -227,6 +228,7 @@ public class MenuManagementStudent {
                                 System.out.println("5. Cập nhật số điện thoại");
                                 System.out.println("6. Cập nhật mật khẩu");
                                 System.out.println("7. thoát");
+                                System.out.println("==============================");
                                 System.out.print("Mời bạn lựa chọn : ");
                                 int choice = Integer.parseInt(scanner.nextLine());
                                 switch (choice) {
@@ -283,7 +285,8 @@ public class MenuManagementStudent {
     }
 
     void deleteStudent(Scanner scanner) {
-
+        System.out.println("Mời nhìn qua danh sách : ");
+        pagingStudentMenu(scanner);
         do {
             System.out.println("Nhập ID sinh viên muốn xóa :");
             String inputID = scanner.nextLine();

@@ -140,7 +140,8 @@ public class MenuManagementCourse {
     }
 
     void menuUpdateCourse(Scanner scanner) {
-
+        System.out.println("Hãy xem qua danh sách khóa học :\n");
+        pagingCourseMenu(scanner);
         do {
             System.out.println("Bạn hãy nhập Id course cần cập nhật sửa đổi :");
             String input = scanner.nextLine();
@@ -211,7 +212,7 @@ public class MenuManagementCourse {
     }
 
     void deleteCourse(Scanner scanner) {
-            pagingCourseMenu(scanner);
+        pagingCourseMenu(scanner);
         do {
             System.out.println("Nhập ID khóa học muốn xóa : ");
             String input = scanner.nextLine();
@@ -235,7 +236,11 @@ public class MenuManagementCourse {
                                 System.err.println("xóa đối tượng không thành công!");
                                 break;
                             }
-                        } else break;
+                        } else {
+                            System.out.println("Hủy Xóa!");
+                            break;
+                        }
+
 
                     } else {
                         System.err.println("ID không chính xác hoặc không tồn tai bạn có muốn tiếp tục tìm Y/N : ");
@@ -282,24 +287,30 @@ public class MenuManagementCourse {
         boolean exits = false;
         do {
             try {
+                System.out.println("==============================");
                 System.out.println("1. Sắp xêp tăng dần theo ID");
                 System.out.println("2. Sắp xếp giảm dần theo ID");
                 System.out.println("3. Sắp xếp tăng dần theo tên");
                 System.out.println("4. Sắp xếp giảm dần theo tên");
                 System.out.println("5. thoát ra menu");
+                System.out.println("==============================");
                 System.out.print("lựa chọn của bạn : ");
                 int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case 1:
+                        printHeader();
                         courses.stream().sorted(Comparator.comparing(Course::getId)).forEach(System.out::println);
                         break;
                     case 2:
+                        printHeader();
                         courses.stream().sorted(Comparator.comparing(Course::getId).reversed()).forEach(System.out::println);
                         break;
                     case 3:
+                        printHeader();
                         courses.stream().sorted(Comparator.comparing(Course::getName)).forEach(System.out::println);
                         break;
                     case 4:
+                        printHeader();
                         courses.stream().sorted(Comparator.comparing(Course::getName).reversed()).forEach(System.out::println);
                         break;
                     case 5:
@@ -329,7 +340,7 @@ public class MenuManagementCourse {
         System.out.println("============================================================================================");
     }
 
-    void pagingCourseMenu(Scanner scanner) {
+    public void pagingCourseMenu(Scanner scanner) {
 
         while (true) {
             String next = "";
@@ -372,7 +383,9 @@ public class MenuManagementCourse {
                     int pageNo = Integer.parseInt(choice);
                     if (pageNo <= totalPage && pageNo >= 1) {
                         currentPage = pageNo;
-                    }else {break;}
+                    } else {
+                        break;
+                    }
 
                 } catch (NumberFormatException e) {
                     break;

@@ -466,3 +466,20 @@ begin
 select * from student limit 5 offset setOff;
 end &&
 delimiter &&
+    delimiter &&
+create procedure find_enroll_delete_update()
+begin
+select c.name as 'course_name',
+    s.name as 'student_name',
+    e.id,
+       e.student_id,
+       e.course_id,
+       e.registered_at,
+       e.status,
+       e.id
+from enrollment as e
+         join trainingmanagement.course c on c.id = e.course_id
+         join trainingmanagement.student s on s.id = e.student_id
+where e.status in ('WAITING', 'CONFIRM');
+end &&
+delimiter &&

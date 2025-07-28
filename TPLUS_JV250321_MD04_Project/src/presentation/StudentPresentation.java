@@ -91,7 +91,7 @@ public class StudentPresentation {
                     int choice = Integer.parseInt(scanner.nextLine());
                     switch (choice) {
                         case 1:
-                            menuManagementCourse.displayCourse(scanner);
+                            menuManagementCourse.pagingCourseMenu(scanner);
                             break;
                         case 2:
                             enrollmentCourse(scanner, student);
@@ -130,7 +130,7 @@ public class StudentPresentation {
         Enrollment enrollment = new Enrollment();
         List<Course> enrollmentCourseList = studentBusinessImp.getCoursesByStudentId(student.getId());
         System.out.println("Danh sách khóa học : ");
-        menuManagementCourse.printHeader();
+        menuManagementCourse.pagingCourseMenu(scanner);
         List<Course> courses = courseBusinessImp.getCourses();
         courses.forEach(System.out::println);
         do {
@@ -296,7 +296,7 @@ public class StudentPresentation {
                     System.err.println("Đổi mật khẩu thất bại");
                 }
             } else {
-                System.err.println("Email hoặc SDT không đúng!");
+                System.err.println("Email hoặc SDT không đúng không thể đổi mật khẩu!!");
             }
         } else {
             System.err.println("Pass cũ không đúng không thể thay đổi pass mới!");
